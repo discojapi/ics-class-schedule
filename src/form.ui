@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>713</width>
+    <height>550</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,46 +17,269 @@
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
      <widget class="QListWidget" name="listWidget">
+      <property name="frameShape">
+       <enum>QFrame::Shape::Panel</enum>
+      </property>
+      <property name="currentRow">
+       <number>0</number>
+      </property>
+      <property name="sortingEnabled">
+       <bool>false</bool>
+      </property>
       <item>
        <property name="text">
-        <string>New Item 2</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>3</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Ñan</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Pazuzu</string>
+        <string>Class</string>
        </property>
       </item>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton">
-      <property name="text">
-       <string>Generate</string>
-      </property>
-     </widget>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="addClass">
+          <property name="text">
+           <string>+</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="removeClass">
+          <property name="text">
+           <string>-</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignmentFlag::AlignVCenter">
+       <widget class="QLabel" name="label_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>17</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Class settings</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayout_2">
+        <property name="formAlignment">
+         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
+        </property>
+        <item row="1" column="0">
+         <widget class="QLabel" name="classNameLabel">
+          <property name="text">
+           <string>Class name</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="classNameLineEdit"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="teacherLabel">
+          <property name="text">
+           <string>Teacher</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="teacherLineEdit"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="dayOfTheWeekLabel">
+          <property name="text">
+           <string>Day of the week</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QComboBox" name="dayOfTheWeekComboBox">
+          <item>
+           <property name="text">
+            <string>Monday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Tuesday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Wednesday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Thursday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Friday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Saturday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Sunday</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="blockSetupLabel">
+          <property name="text">
+           <string>Block</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="blockSetupLineEdit"/>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="notesLabel">
+          <property name="text">
+           <string>Notes</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLineEdit" name="notesLineEdit"/>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="classroomLabel">
+          <property name="text">
+           <string>Classroom</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QLineEdit" name="classroomLineEdit"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignmentFlag::AlignBottom">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Schedule settings</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayout">
+        <property name="sizeConstraint">
+         <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+        </property>
+        <property name="formAlignment">
+         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="periodStartLabel">
+          <property name="text">
+           <string>Period start</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QDateEdit" name="periodStartDateEdit"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="periodEndLabel">
+          <property name="text">
+           <string>Period end</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QDateEdit" name="periodEndDateEdit"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="timeBetweenBlockLabel">
+          <property name="text">
+           <string>Time between blocks</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="timeBetweenBlockSpinBox"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="lunchTimeLabel">
+          <property name="text">
+           <string>Lunch time</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QTimeEdit" name="lunchTimeTimeEdit"/>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="dayStartLabel">
+          <property name="text">
+           <string>Day start</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QTimeEdit" name="dayStartTimeEdit"/>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="filenameLabel">
+          <property name="text">
+           <string>Filename</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLineEdit" name="filenameLineEdit">
+          <property name="text">
+           <string>schedule.ics</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Generate</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>22</height>
-    </rect>
-   </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
