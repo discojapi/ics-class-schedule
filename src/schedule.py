@@ -8,5 +8,3 @@ class SchClass:
         return self.name
 
 Scheduling = []
-Scheduling.append(SchClass("John",0,0,0))
-print(Scheduling[0].getName())
