@@ -16,12 +16,12 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QDateEdit, QFormLayout,
-    QFrame, QHBoxLayout, QHeaderView, QLabel,
-    QLayout, QLineEdit, QMainWindow, QPushButton,
-    QSizePolicy, QSpinBox, QStatusBar, QTableWidget,
-    QTableWidgetItem, QTimeEdit, QTreeWidget, QTreeWidgetItem,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QDateEdit,
+    QFormLayout, QFrame, QHBoxLayout, QHeaderView,
+    QLabel, QLayout, QLineEdit, QMainWindow,
+    QPushButton, QSizePolicy, QSpinBox, QStatusBar,
+    QTableWidget, QTableWidgetItem, QTimeEdit, QTreeWidget,
+    QTreeWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -51,6 +51,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.treeWidget.sizePolicy().hasHeightForWidth())
         self.treeWidget.setSizePolicy(sizePolicy)
+        self.treeWidget.setEditTriggers(QAbstractItemView.EditTrigger.CurrentChanged)
         self.treeWidget.setAlternatingRowColors(True)
         self.treeWidget.setUniformRowHeights(True)
         self.treeWidget.setAnimated(True)
@@ -74,7 +75,20 @@ class Ui_MainWindow(object):
         self.tableWidget.setHorizontalHeaderItem(5, __qtablewidgetitem5)
         __qtablewidgetitem6 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(6, __qtablewidgetitem6)
+        if (self.tableWidget.rowCount() < 8):
+            self.tableWidget.setRowCount(8)
+        brush = QBrush(QColor(0, 0, 0, 255))
+        brush.setStyle(Qt.NoBrush)
+        __qtablewidgetitem7 = QTableWidgetItem()
+        __qtablewidgetitem7.setBackground(brush);
+        self.tableWidget.setItem(0, 0, __qtablewidgetitem7)
+        __qtablewidgetitem8 = QTableWidgetItem()
+        self.tableWidget.setItem(1, 0, __qtablewidgetitem8)
         self.tableWidget.setObjectName(u"tableWidget")
+        self.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.tableWidget.setShowGrid(True)
+        self.tableWidget.setGridStyle(Qt.PenStyle.DashLine)
+        self.tableWidget.setWordWrap(True)
 
         self.verticalLayout_2.addWidget(self.tableWidget)
 
@@ -331,6 +345,11 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"Saturday", None));
         ___qtablewidgetitem6 = self.tableWidget.horizontalHeaderItem(6)
         ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"Sunday", None));
+
+        __sortingEnabled = self.tableWidget.isSortingEnabled()
+        self.tableWidget.setSortingEnabled(False)
+        self.tableWidget.setSortingEnabled(__sortingEnabled)
+
         self.addClass.setText(QCoreApplication.translate("MainWindow", u"+", None))
         self.removeClass.setText(QCoreApplication.translate("MainWindow", u"-", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Class settings", None))
