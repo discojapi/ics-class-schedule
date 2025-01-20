@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1018, 615)
+        MainWindow.resize(1018, 616)
         self.actionAdd_class = QAction(MainWindow)
         self.actionAdd_class.setObjectName(u"actionAdd_class")
         icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.ListAdd))
@@ -51,7 +51,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.treeWidget.sizePolicy().hasHeightForWidth())
         self.treeWidget.setSizePolicy(sizePolicy)
-        self.treeWidget.setEditTriggers(QAbstractItemView.EditTrigger.CurrentChanged)
+        self.treeWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.treeWidget.setAlternatingRowColors(True)
         self.treeWidget.setUniformRowHeights(True)
         self.treeWidget.setAnimated(True)
@@ -75,8 +75,8 @@ class Ui_MainWindow(object):
         self.tableWidget.setHorizontalHeaderItem(5, __qtablewidgetitem5)
         __qtablewidgetitem6 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(6, __qtablewidgetitem6)
-        if (self.tableWidget.rowCount() < 8):
-            self.tableWidget.setRowCount(8)
+        if (self.tableWidget.rowCount() < 9):
+            self.tableWidget.setRowCount(9)
         brush = QBrush(QColor(0, 0, 0, 255))
         brush.setStyle(Qt.NoBrush)
         __qtablewidgetitem7 = QTableWidgetItem()
@@ -85,10 +85,17 @@ class Ui_MainWindow(object):
         __qtablewidgetitem8 = QTableWidgetItem()
         self.tableWidget.setItem(1, 0, __qtablewidgetitem8)
         self.tableWidget.setObjectName(u"tableWidget")
+        self.tableWidget.setFrameShape(QFrame.Shape.StyledPanel)
         self.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.tableWidget.setShowGrid(True)
         self.tableWidget.setGridStyle(Qt.PenStyle.DashLine)
-        self.tableWidget.setWordWrap(True)
+        self.tableWidget.setWordWrap(False)
+        self.tableWidget.setRowCount(9)
+        self.tableWidget.horizontalHeader().setVisible(True)
+        self.tableWidget.horizontalHeader().setCascadingSectionResizes(False)
+        self.tableWidget.horizontalHeader().setHighlightSections(True)
+        self.tableWidget.horizontalHeader().setProperty(u"showSortIndicator", False)
+        self.tableWidget.horizontalHeader().setStretchLastSection(True)
 
         self.verticalLayout_2.addWidget(self.tableWidget)
 
@@ -175,11 +182,6 @@ class Ui_MainWindow(object):
 
         self.formLayout_2.setWidget(4, QFormLayout.LabelRole, self.blockSetupLabel)
 
-        self.blockSetupLineEdit = QLineEdit(self.centralwidget)
-        self.blockSetupLineEdit.setObjectName(u"blockSetupLineEdit")
-
-        self.formLayout_2.setWidget(4, QFormLayout.FieldRole, self.blockSetupLineEdit)
-
         self.notesLabel = QLabel(self.centralwidget)
         self.notesLabel.setObjectName(u"notesLabel")
 
@@ -199,6 +201,14 @@ class Ui_MainWindow(object):
         self.classroomLineEdit.setObjectName(u"classroomLineEdit")
 
         self.formLayout_2.setWidget(6, QFormLayout.FieldRole, self.classroomLineEdit)
+
+        self.spinBox = QSpinBox(self.centralwidget)
+        self.spinBox.setObjectName(u"spinBox")
+        self.spinBox.setMinimum(1)
+        self.spinBox.setMaximum(9)
+        self.spinBox.setValue(1)
+
+        self.formLayout_2.setWidget(4, QFormLayout.FieldRole, self.spinBox)
 
 
         self.verticalLayout.addLayout(self.formLayout_2)
@@ -330,7 +340,7 @@ class Ui_MainWindow(object):
         ___qtreewidgetitem.setText(3, QCoreApplication.translate("MainWindow", u"Teacher", None));
         ___qtreewidgetitem.setText(2, QCoreApplication.translate("MainWindow", u"Block", None));
         ___qtreewidgetitem.setText(1, QCoreApplication.translate("MainWindow", u"Day", None));
-        ___qtreewidgetitem.setText(0, QCoreApplication.translate("MainWindow", u"Name", None));
+        ___qtreewidgetitem.setText(0, QCoreApplication.translate("MainWindow", u"Class name", None));
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Monday", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)

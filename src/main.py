@@ -1,8 +1,8 @@
 # This Python file uses the following encoding: utf-8
 import sys
-from schedule import SchClass
+from schedule import SchClass, checkTime
 from PySide6.QtCore import Qt, Signal, Slot
-from PySide6.QtWidgets import QApplication, QMainWindow, QTreeWidgetItem, QMessageBox
+from PySide6.QtWidgets import QApplication, QMainWindow, QTreeWidgetItem, QMessageBox, QTableWidgetItem
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
@@ -17,18 +17,21 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.activeClass = 0
+        self.items= []
+        self.addClass()
         #Connections
         self.ui.addClass.clicked.connect(self.addClass)
-        self.items= []
-        self.items.append(QTreeWidgetItem())
-        self.ui.treeWidget.insertTopLevelItems(0, self.items)
+        self.ui.removeClass.clicked.connect(self.removeClass)
         self.ui.gen_button.clicked.connect(self.onGenClicked)
         self.ui.treeWidget.activated.connect(self.onActiveItemChange)
-        #Draw
+        self.ui.dayOfTheWeekComboBox.activated.connect(self.onDayChange)
+        self.ui.spinBox.valueChanged.connect(self.onBlockChange)
+        self.ui.classNameLineEdit.editingFinished.connect(self.onNameChange)
+
     @Slot(int)
     def onActiveItemChange(self,index):
-        print(index.row())
-
+        self.activeClass = index.row()
+        self.redraw()
 
     def onGenClicked(self, item):
         QMessageBox.information(self, "Generated", "Your calendar file "+ self.ui.filenameLineEdit.text() + " has been generated successfully")
@@ -37,19 +40,48 @@ class MainWindow(QMainWindow):
         self.ui.treeWidget.clear()
         self.ui.tableWidget.clear()
         for item in self.items:
-            self.ui.treeWidget.addTopLevelItem(QTreeWidgetItem())
-    
+            #Tree list
+            it = QTreeWidgetItem()
+            it.setText(0,item.name)
+            it.setText(3,item.teacher)
+            (day,block) = checkTime(item,True)
+            it.setText(1,day)
+            it.setText(2,str(block))
+            self.ui.treeWidget.addTopLevelItem(it)
+            #Table
+            (day,block) = checkTime(item,False)
+            tb = QTableWidgetItem()
+            tb.setText(item.name)
+            self.ui.tableWidget.setItem(block-1,day-1,tb)
+        self.ui.classNameLineEdit.setText(self.items[self.activeClass].name)
+        self.ui.teacherLineEdit.setText(self.items[self.activeClass].teacher)
+        self.ui.notesLineEdit.setText(self.items[self.activeClass].notes)
+        self.ui.classroomLineEdit.setText(self.items[self.activeClass].classroom)
+        self.ui.dayOfTheWeekComboBox.setCurrentIndex(self.items[self.activeClass].day-1)
+        self.ui.spinBox.setValue(self.items[self.activeClass].block-1)
+
+
     #Slots
-    @Slot()
+    @Slot()  
     def addClass(self):
-        self.items.append(SchClass("Class", 0, "", "", ""))
+        self.items.append(SchClass())
+        self.activeClass = len(self.items)-1
         self.redraw()
     @Slot()
     def removeClass(self):
-        if self.ui.treeWidget.count > 1:
-            pass
+        if len(self.items) > 1:
+            self.items.pop(self.activeClass)
+            self.activeClass = len(self.items)-1
         self.redraw()
-    
+    def onNameChange(self):
+        self.items[self.activeClass].name = self.ui.classNameLineEdit.text()
+        self.redraw()
+    def onDayChange(self,day):
+        self.items[self.activeClass].day = day+1
+        self.redraw()
+    def onBlockChange(self,block):
+        self.items[self.activeClass].block = block
+        self.redraw()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
