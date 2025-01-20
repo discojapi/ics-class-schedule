@@ -26,15 +26,10 @@ class MainWindow(QMainWindow):
         self.ui.treeWidget.activated.connect(self.onActiveItemChange)
         self.ui.dayOfTheWeekComboBox.activated.connect(self.onDayChange)
         self.ui.spinBox.valueChanged.connect(self.onBlockChange)
-        self.ui.classNameLineEdit.editingFinished.connect(self.onNameChange)
-
-    @Slot(int)
-    def onActiveItemChange(self,index):
-        self.activeClass = index.row()
-        self.redraw()
-
-    def onGenClicked(self, item):
-        QMessageBox.information(self, "Generated", "Your calendar file "+ self.ui.filenameLineEdit.text() + " has been generated successfully")
+        self.ui.classNameLineEdit.textEdited.connect(self.onNameChange)
+        self.ui.teacherLineEdit.textEdited.connect(self.onTeacherChange)
+        self.ui.classroomLineEdit.textEdited.connect(self.onClassroomChange)
+        self.ui.notesLineEdit.textEdited.connect(self.onNotesChange)
 
     def redraw(self):
         self.ui.treeWidget.clear()
@@ -58,10 +53,18 @@ class MainWindow(QMainWindow):
         self.ui.notesLineEdit.setText(self.items[self.activeClass].notes)
         self.ui.classroomLineEdit.setText(self.items[self.activeClass].classroom)
         self.ui.dayOfTheWeekComboBox.setCurrentIndex(self.items[self.activeClass].day-1)
-        self.ui.spinBox.setValue(self.items[self.activeClass].block-1)
+        self.ui.spinBox.setValue(self.items[self.activeClass].block)
 
+    #Slots    
+    
+    @Slot(int)
+    def onActiveItemChange(self,index):
+        self.activeClass = index.row()
+        self.redraw()
 
-    #Slots
+    def onGenClicked(self, item):
+        QMessageBox.information(self, "Generated", "Your calendar file "+ self.ui.filenameLineEdit.text() + " has been generated successfully")
+
     @Slot()  
     def addClass(self):
         self.items.append(SchClass())
@@ -73,14 +76,28 @@ class MainWindow(QMainWindow):
             self.items.pop(self.activeClass)
             self.activeClass = len(self.items)-1
         self.redraw()
+    @Slot(str)
     def onNameChange(self):
         self.items[self.activeClass].name = self.ui.classNameLineEdit.text()
         self.redraw()
     def onDayChange(self,day):
         self.items[self.activeClass].day = day+1
         self.redraw()
+    @Slot(int)
     def onBlockChange(self,block):
         self.items[self.activeClass].block = block
+        self.redraw()
+    @Slot(str)
+    def onTeacherChange(self,name):
+        self.items[self.activeClass].teacher = name
+        self.redraw()
+    @Slot(str)
+    def onNotesChange(self,notes):
+        self.items[self.activeClass].notes = notes
+        self.redraw()
+    @Slot(str)
+    def onClassroomChange(self,classroom):
+        self.items[self.activeClass].classroom = classroom
         self.redraw()
 
 if __name__ == "__main__":
