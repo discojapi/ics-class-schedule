@@ -20,8 +20,8 @@ from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QDate
     QFormLayout, QFrame, QHBoxLayout, QHeaderView,
     QLabel, QLayout, QLineEdit, QMainWindow,
     QPushButton, QSizePolicy, QSpinBox, QStatusBar,
-    QTableWidget, QTableWidgetItem, QTimeEdit, QTreeWidget,
-    QTreeWidgetItem, QVBoxLayout, QWidget)
+    QTableWidget, QTableWidgetItem, QTimeEdit, QToolBar,
+    QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -38,6 +38,21 @@ class Ui_MainWindow(object):
         icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditDelete))
         self.actionRemove_class.setIcon(icon1)
         self.actionRemove_class.setMenuRole(QAction.MenuRole.NoRole)
+        self.actionsave = QAction(MainWindow)
+        self.actionsave.setObjectName(u"actionsave")
+        icon2 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSaveAs))
+        self.actionsave.setIcon(icon2)
+        self.actionsave.setMenuRole(QAction.MenuRole.NoRole)
+        self.actionLoad = QAction(MainWindow)
+        self.actionLoad.setObjectName(u"actionLoad")
+        icon3 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentOpen))
+        self.actionLoad.setIcon(icon3)
+        self.actionLoad.setMenuRole(QAction.MenuRole.NoRole)
+        self.actionNew = QAction(MainWindow)
+        self.actionNew.setObjectName(u"actionNew")
+        icon4 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentNew))
+        self.actionNew.setIcon(icon4)
+        self.actionNew.setMenuRole(QAction.MenuRole.NoRole)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.horizontalLayout_2 = QHBoxLayout(self.centralwidget)
@@ -46,8 +61,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.treeWidget = QTreeWidget(self.centralwidget)
         self.treeWidget.headerItem().setText(0, "")
-        __qtreewidgetitem = QTreeWidgetItem(self.treeWidget)
-        __qtreewidgetitem.setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsDropEnabled|Qt.ItemIsEnabled);
         self.treeWidget.setObjectName(u"treeWidget")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(1)
@@ -340,6 +353,13 @@ class Ui_MainWindow(object):
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.toolBar = QToolBar(MainWindow)
+        self.toolBar.setObjectName(u"toolBar")
+        MainWindow.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.toolBar)
+
+        self.toolBar.addAction(self.actionNew)
+        self.toolBar.addAction(self.actionsave)
+        self.toolBar.addAction(self.actionLoad)
 
         self.retranslateUi(MainWindow)
 
@@ -350,18 +370,14 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.actionAdd_class.setText(QCoreApplication.translate("MainWindow", u"Add class", None))
         self.actionRemove_class.setText(QCoreApplication.translate("MainWindow", u"Remove_class", None))
+        self.actionsave.setText(QCoreApplication.translate("MainWindow", u"save", None))
+        self.actionLoad.setText(QCoreApplication.translate("MainWindow", u"Load", None))
+        self.actionNew.setText(QCoreApplication.translate("MainWindow", u"New", None))
         ___qtreewidgetitem = self.treeWidget.headerItem()
         ___qtreewidgetitem.setText(4, QCoreApplication.translate("MainWindow", u"Teacher", None));
         ___qtreewidgetitem.setText(3, QCoreApplication.translate("MainWindow", u"Block", None));
         ___qtreewidgetitem.setText(2, QCoreApplication.translate("MainWindow", u"Day", None));
         ___qtreewidgetitem.setText(1, QCoreApplication.translate("MainWindow", u"Class name", None));
-
-        __sortingEnabled = self.treeWidget.isSortingEnabled()
-        self.treeWidget.setSortingEnabled(False)
-        ___qtreewidgetitem1 = self.treeWidget.topLevelItem(0)
-        ___qtreewidgetitem1.setText(0, QCoreApplication.translate("MainWindow", u"New Item", None));
-        self.treeWidget.setSortingEnabled(__sortingEnabled)
-
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Monday", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
@@ -377,9 +393,9 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem6 = self.tableWidget.horizontalHeaderItem(6)
         ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"Sunday", None));
 
-        __sortingEnabled1 = self.tableWidget.isSortingEnabled()
+        __sortingEnabled = self.tableWidget.isSortingEnabled()
         self.tableWidget.setSortingEnabled(False)
-        self.tableWidget.setSortingEnabled(__sortingEnabled1)
+        self.tableWidget.setSortingEnabled(__sortingEnabled)
 
         self.addClass.setText(QCoreApplication.translate("MainWindow", u"+", None))
         self.removeClass.setText(QCoreApplication.translate("MainWindow", u"-", None))
@@ -410,5 +426,6 @@ class Ui_MainWindow(object):
         self.lunchTimeLabel.setText(QCoreApplication.translate("MainWindow", u"Lunch time (Minutes)", None))
         self.blockTimeMinutesLabel.setText(QCoreApplication.translate("MainWindow", u"Block time (minutes)", None))
         self.gen_button.setText(QCoreApplication.translate("MainWindow", u"Generate Ics file", None))
+        self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
     # retranslateUi
 

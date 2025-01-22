@@ -24,13 +24,14 @@ class MainWindow(QMainWindow):
         self.ui.addClass.clicked.connect(self.addClass)
         self.ui.removeClass.clicked.connect(self.removeClass)
         self.ui.gen_button.clicked.connect(self.onGenClicked)
-        self.ui.treeWidget.activated.connect(self.onActiveItemChange)
+        self.ui.treeWidget.clicked.connect(self.onActiveItemChange)
         self.ui.dayOfTheWeekComboBox.activated.connect(self.onDayChange)
         self.ui.spinBox.valueChanged.connect(self.onBlockChange)
         self.ui.classNameLineEdit.textEdited.connect(self.onNameChange)
         self.ui.teacherLineEdit.textEdited.connect(self.onTeacherChange)
         self.ui.classroomLineEdit.textEdited.connect(self.onClassroomChange)
         self.ui.notesLineEdit.textEdited.connect(self.onNotesChange)
+        self.ui.tableWidget.cellClicked.connect(self.onActiveTableItemChange)
 
     def redraw(self):
         self.ui.treeWidget.clear()
@@ -70,6 +71,15 @@ class MainWindow(QMainWindow):
     def onActiveItemChange(self,index):
         self.activeClass = index.row()
         self.redraw()
+    @Slot(int,int)
+    def onActiveTableItemChange(self,row,column):
+        check = 0
+        for item in self.items:
+            if checkTime(item,False) == (column+1,row+1):
+                self.activeClass = check
+                self.redraw()
+                return
+            check += 1
 
     def onGenClicked(self, item):
         QMessageBox.information(self, "Generated", "Your calendar file "+ self.ui.filenameLineEdit.text() + " has been generated successfully")
