@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1018</width>
-    <height>616</height>
+    <width>1149</width>
+    <height>781</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -71,6 +71,12 @@
         </property>
         <property name="editTriggers">
          <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+        </property>
+        <property name="dragDropMode">
+         <enum>QAbstractItemView::DragDropMode::NoDragDrop</enum>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>true</bool>
         </property>
         <property name="showGrid">
          <bool>true</bool>
@@ -196,7 +202,7 @@
       <item alignment="Qt::AlignmentFlag::AlignVCenter">
        <widget class="QLabel" name="label_2">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
+         <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>

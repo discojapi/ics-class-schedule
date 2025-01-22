@@ -1,6 +1,6 @@
 # This Python file uses the following encoding: utf-8
 import sys
-from schedule import SchClass, checkTime
+from schedule import SchClass, checkTime, Configs
 from PySide6.QtCore import Qt, Slot
 from PySide6.QtWidgets import QApplication, QMainWindow, QTreeWidgetItem, QMessageBox, QTableWidgetItem
 from PySide6.QtGui import QColor
@@ -10,13 +10,15 @@ from PySide6.QtGui import QColor
 #     pyside6-uic form.ui -o ui_form.py, or
 #     pyside2-uic form.ui -o ui_form.py
 from ui_form import Ui_MainWindow
-
+from ics_tools import process
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        #Setup
+        self.configs = Configs(0,0,0,0,0,0,0,"schedule.ics")
         self.activeClass = 0
         self.items= []
         self.addClass()
@@ -66,7 +68,6 @@ class MainWindow(QMainWindow):
         self.ui.spinBox.setValue(self.items[self.activeClass].block)
 
     #Slots    
-    
     @Slot(int)
     def onActiveItemChange(self,index):
         self.activeClass = index.row()
@@ -81,8 +82,12 @@ class MainWindow(QMainWindow):
                 return
             check += 1
 
-    def onGenClicked(self, item):
-        QMessageBox.information(self, "Generated", "Your calendar file "+ self.ui.filenameLineEdit.text() + " has been generated successfully")
+    def onGenClicked(self):
+        try :
+            process(self.items, self.configs)
+            QMessageBox.information(self, "Generated", "Your calendar file "+ self.ui.filenameLineEdit.text() + " has been generated successfully")
+        except : 
+            QMessageBox.warning(self,"Error","Couldn't generate .ics file, please check your configurations")
 
     @Slot()  
     def addClass(self):

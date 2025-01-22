@@ -8,6 +8,18 @@ class SchClass:
         self.teacher = teacher
         self.notes = notes
         self.classroom = classroom
+    
+class Configs:
+    # p= Period, b= Block, l= Lunch, d= Day
+    def __init__(self, pStart, pEnd, bTime, breakT, lStart, lTime, dStart, filename):
+        self.pStart = pStart
+        self.pEnd = pEnd
+        self.bTime = bTime
+        self.breakT = breakT
+        self.lStart = lStart
+        self.lTime = lTime
+        self.dStart = dStart
+        self.filename = filename
 
 def checkTime(classTime, strday):
     day = classTime.day

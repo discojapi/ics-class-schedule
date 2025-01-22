@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1018, 616)
+        MainWindow.resize(1149, 781)
         self.actionAdd_class = QAction(MainWindow)
         self.actionAdd_class.setObjectName(u"actionAdd_class")
         icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.ListAdd))
@@ -103,6 +103,8 @@ class Ui_MainWindow(object):
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setFrameShape(QFrame.Shape.StyledPanel)
         self.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.tableWidget.setDragDropMode(QAbstractItemView.DragDropMode.NoDragDrop)
+        self.tableWidget.setAlternatingRowColors(True)
         self.tableWidget.setShowGrid(True)
         self.tableWidget.setGridStyle(Qt.PenStyle.DashLine)
         self.tableWidget.setWordWrap(False)
@@ -144,7 +146,7 @@ class Ui_MainWindow(object):
 
         self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Minimum)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
