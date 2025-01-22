@@ -1,8 +1,9 @@
 # This Python file uses the following encoding: utf-8
 import sys
 from schedule import SchClass, checkTime
-from PySide6.QtCore import Qt, Signal, Slot
+from PySide6.QtCore import Qt, Slot
 from PySide6.QtWidgets import QApplication, QMainWindow, QTreeWidgetItem, QMessageBox, QTableWidgetItem
+from PySide6.QtGui import QColor
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
@@ -33,21 +34,29 @@ class MainWindow(QMainWindow):
 
     def redraw(self):
         self.ui.treeWidget.clear()
-        self.ui.tableWidget.clear()
+        self.ui.tableWidget.clearContents()
+        check = 0
         for item in self.items:
             #Tree list
             it = QTreeWidgetItem()
-            it.setText(0,item.name)
-            it.setText(3,item.teacher)
+            if check == self.activeClass:
+                it.setCheckState(0,Qt.CheckState.Checked)
+            else:
+                it.setCheckState(0,Qt.CheckState.Unchecked)
+            it.setText(1,item.name)
+            it.setText(4,item.teacher)
             (day,block) = checkTime(item,True)
-            it.setText(1,day)
-            it.setText(2,str(block))
+            it.setText(2,day)
+            it.setText(3,str(block))
+            it.setFlags(Qt.ItemIsSelectable|Qt.ItemIsEnabled)
             self.ui.treeWidget.addTopLevelItem(it)
             #Table
             (day,block) = checkTime(item,False)
             tb = QTableWidgetItem()
             tb.setText(item.name)
+            tb.setBackground(QColor("orange"))
             self.ui.tableWidget.setItem(block-1,day-1,tb)
+            check += 1
         self.ui.classNameLineEdit.setText(self.items[self.activeClass].name)
         self.ui.teacherLineEdit.setText(self.items[self.activeClass].teacher)
         self.ui.notesLineEdit.setText(self.items[self.activeClass].notes)

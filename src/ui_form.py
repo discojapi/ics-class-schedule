@@ -45,6 +45,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.treeWidget = QTreeWidget(self.centralwidget)
+        self.treeWidget.headerItem().setText(0, "")
+        __qtreewidgetitem = QTreeWidgetItem(self.treeWidget)
+        __qtreewidgetitem.setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsDropEnabled|Qt.ItemIsEnabled);
         self.treeWidget.setObjectName(u"treeWidget")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(1)
@@ -236,6 +239,7 @@ class Ui_MainWindow(object):
 
         self.periodStartDateEdit = QDateEdit(self.centralwidget)
         self.periodStartDateEdit.setObjectName(u"periodStartDateEdit")
+        self.periodStartDateEdit.setCalendarPopup(True)
 
         self.formLayout.setWidget(0, QFormLayout.FieldRole, self.periodStartDateEdit)
 
@@ -246,6 +250,7 @@ class Ui_MainWindow(object):
 
         self.periodEndDateEdit = QDateEdit(self.centralwidget)
         self.periodEndDateEdit.setObjectName(u"periodEndDateEdit")
+        self.periodEndDateEdit.setCalendarPopup(True)
 
         self.formLayout.setWidget(1, QFormLayout.FieldRole, self.periodEndDateEdit)
 
@@ -265,11 +270,6 @@ class Ui_MainWindow(object):
 
         self.formLayout.setWidget(4, QFormLayout.LabelRole, self.lunchStartLabel)
 
-        self.lunchStartTimeEdit = QTimeEdit(self.centralwidget)
-        self.lunchStartTimeEdit.setObjectName(u"lunchStartTimeEdit")
-
-        self.formLayout.setWidget(4, QFormLayout.FieldRole, self.lunchStartTimeEdit)
-
         self.dayStartLabel = QLabel(self.centralwidget)
         self.dayStartLabel.setObjectName(u"dayStartLabel")
 
@@ -277,6 +277,9 @@ class Ui_MainWindow(object):
 
         self.dayStartTimeEdit = QTimeEdit(self.centralwidget)
         self.dayStartTimeEdit.setObjectName(u"dayStartTimeEdit")
+        self.dayStartTimeEdit.setDateTime(QDateTime(QDate(2000, 1, 1), QTime(8, 15, 0)))
+        self.dayStartTimeEdit.setCalendarPopup(False)
+        self.dayStartTimeEdit.setTimeSpec(Qt.TimeSpec.LocalTime)
 
         self.formLayout.setWidget(6, QFormLayout.FieldRole, self.dayStartTimeEdit)
 
@@ -297,6 +300,9 @@ class Ui_MainWindow(object):
 
         self.lunchTimeSpinBox = QSpinBox(self.centralwidget)
         self.lunchTimeSpinBox.setObjectName(u"lunchTimeSpinBox")
+        self.lunchTimeSpinBox.setMinimum(1)
+        self.lunchTimeSpinBox.setMaximum(200)
+        self.lunchTimeSpinBox.setValue(60)
 
         self.formLayout.setWidget(5, QFormLayout.FieldRole, self.lunchTimeSpinBox)
 
@@ -310,6 +316,14 @@ class Ui_MainWindow(object):
         self.blockTimeMinutesSpinBox.setValue(70)
 
         self.formLayout.setWidget(2, QFormLayout.FieldRole, self.blockTimeMinutesSpinBox)
+
+        self.lunchStartSpinBox = QSpinBox(self.centralwidget)
+        self.lunchStartSpinBox.setObjectName(u"lunchStartSpinBox")
+        self.lunchStartSpinBox.setMinimum(1)
+        self.lunchStartSpinBox.setMaximum(9)
+        self.lunchStartSpinBox.setValue(5)
+
+        self.formLayout.setWidget(4, QFormLayout.FieldRole, self.lunchStartSpinBox)
 
 
         self.verticalLayout.addLayout(self.formLayout)
@@ -337,10 +351,17 @@ class Ui_MainWindow(object):
         self.actionAdd_class.setText(QCoreApplication.translate("MainWindow", u"Add class", None))
         self.actionRemove_class.setText(QCoreApplication.translate("MainWindow", u"Remove_class", None))
         ___qtreewidgetitem = self.treeWidget.headerItem()
-        ___qtreewidgetitem.setText(3, QCoreApplication.translate("MainWindow", u"Teacher", None));
-        ___qtreewidgetitem.setText(2, QCoreApplication.translate("MainWindow", u"Block", None));
-        ___qtreewidgetitem.setText(1, QCoreApplication.translate("MainWindow", u"Day", None));
-        ___qtreewidgetitem.setText(0, QCoreApplication.translate("MainWindow", u"Class name", None));
+        ___qtreewidgetitem.setText(4, QCoreApplication.translate("MainWindow", u"Teacher", None));
+        ___qtreewidgetitem.setText(3, QCoreApplication.translate("MainWindow", u"Block", None));
+        ___qtreewidgetitem.setText(2, QCoreApplication.translate("MainWindow", u"Day", None));
+        ___qtreewidgetitem.setText(1, QCoreApplication.translate("MainWindow", u"Class name", None));
+
+        __sortingEnabled = self.treeWidget.isSortingEnabled()
+        self.treeWidget.setSortingEnabled(False)
+        ___qtreewidgetitem1 = self.treeWidget.topLevelItem(0)
+        ___qtreewidgetitem1.setText(0, QCoreApplication.translate("MainWindow", u"New Item", None));
+        self.treeWidget.setSortingEnabled(__sortingEnabled)
+
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Monday", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
@@ -356,9 +377,9 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem6 = self.tableWidget.horizontalHeaderItem(6)
         ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"Sunday", None));
 
-        __sortingEnabled = self.tableWidget.isSortingEnabled()
+        __sortingEnabled1 = self.tableWidget.isSortingEnabled()
         self.tableWidget.setSortingEnabled(False)
-        self.tableWidget.setSortingEnabled(__sortingEnabled)
+        self.tableWidget.setSortingEnabled(__sortingEnabled1)
 
         self.addClass.setText(QCoreApplication.translate("MainWindow", u"+", None))
         self.removeClass.setText(QCoreApplication.translate("MainWindow", u"-", None))
@@ -382,11 +403,11 @@ class Ui_MainWindow(object):
         self.periodStartLabel.setText(QCoreApplication.translate("MainWindow", u"Period start", None))
         self.periodEndLabel.setText(QCoreApplication.translate("MainWindow", u"Period end", None))
         self.timeBetweenBlockLabel.setText(QCoreApplication.translate("MainWindow", u"Time between blocks (minutes)", None))
-        self.lunchStartLabel.setText(QCoreApplication.translate("MainWindow", u"Lunch start", None))
+        self.lunchStartLabel.setText(QCoreApplication.translate("MainWindow", u"Lunch start block", None))
         self.dayStartLabel.setText(QCoreApplication.translate("MainWindow", u"Day start", None))
         self.filenameLabel.setText(QCoreApplication.translate("MainWindow", u"Filename", None))
         self.filenameLineEdit.setText(QCoreApplication.translate("MainWindow", u"schedule.ics", None))
-        self.lunchTimeLabel.setText(QCoreApplication.translate("MainWindow", u"Lunch time", None))
+        self.lunchTimeLabel.setText(QCoreApplication.translate("MainWindow", u"Lunch time (Minutes)", None))
         self.blockTimeMinutesLabel.setText(QCoreApplication.translate("MainWindow", u"Block time (minutes)", None))
         self.gen_button.setText(QCoreApplication.translate("MainWindow", u"Generate Ics file", None))
     # retranslateUi
