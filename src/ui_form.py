@@ -19,9 +19,9 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
 from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QDateEdit,
     QFormLayout, QFrame, QHBoxLayout, QHeaderView,
     QLabel, QLayout, QLineEdit, QMainWindow,
-    QPushButton, QSizePolicy, QSpinBox, QStatusBar,
-    QTableWidget, QTableWidgetItem, QTimeEdit, QToolBar,
-    QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
+    QSizePolicy, QSpinBox, QStatusBar, QTableWidget,
+    QTableWidgetItem, QTimeEdit, QToolBar, QTreeWidget,
+    QTreeWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -53,6 +53,21 @@ class Ui_MainWindow(object):
         icon4 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentNew))
         self.actionNew.setIcon(icon4)
         self.actionNew.setMenuRole(QAction.MenuRole.NoRole)
+        self.actionabout = QAction(MainWindow)
+        self.actionabout.setObjectName(u"actionabout")
+        icon5 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.HelpAbout))
+        self.actionabout.setIcon(icon5)
+        self.actionabout.setMenuRole(QAction.MenuRole.AboutRole)
+        self.action_gen = QAction(MainWindow)
+        self.action_gen.setObjectName(u"action_gen")
+        icon6 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.AppointmentNew))
+        self.action_gen.setIcon(icon6)
+        self.action_gen.setMenuRole(QAction.MenuRole.NoRole)
+        self.actionExport = QAction(MainWindow)
+        self.actionExport.setObjectName(u"actionExport")
+        icon7 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.InsertImage))
+        self.actionExport.setIcon(icon7)
+        self.actionExport.setMenuRole(QAction.MenuRole.NoRole)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.horizontalLayout_2 = QHBoxLayout(self.centralwidget)
@@ -103,8 +118,10 @@ class Ui_MainWindow(object):
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setFrameShape(QFrame.Shape.StyledPanel)
         self.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        self.tableWidget.setDragDropMode(QAbstractItemView.DragDropMode.NoDragDrop)
+        self.tableWidget.setDragEnabled(True)
+        self.tableWidget.setDragDropMode(QAbstractItemView.DragDropMode.DragDrop)
         self.tableWidget.setAlternatingRowColors(True)
+        self.tableWidget.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         self.tableWidget.setShowGrid(True)
         self.tableWidget.setGridStyle(Qt.PenStyle.DashLine)
         self.tableWidget.setWordWrap(False)
@@ -114,29 +131,19 @@ class Ui_MainWindow(object):
         self.tableWidget.horizontalHeader().setHighlightSections(True)
         self.tableWidget.horizontalHeader().setProperty(u"showSortIndicator", False)
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
+        self.tableWidget.verticalHeader().setDefaultSectionSize(33)
+        self.tableWidget.verticalHeader().setProperty(u"showSortIndicator", False)
+        self.tableWidget.verticalHeader().setStretchLastSection(True)
 
         self.verticalLayout_2.addWidget(self.tableWidget)
 
+        self.verticalLayout_2.setStretch(0, 4)
+        self.verticalLayout_2.setStretch(1, 5)
 
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
 
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.addClass = QPushButton(self.centralwidget)
-        self.addClass.setObjectName(u"addClass")
-
-        self.horizontalLayout.addWidget(self.addClass)
-
-        self.removeClass = QPushButton(self.centralwidget)
-        self.removeClass.setObjectName(u"removeClass")
-
-        self.horizontalLayout.addWidget(self.removeClass)
-
-
-        self.verticalLayout.addLayout(self.horizontalLayout)
-
         self.line_2 = QFrame(self.centralwidget)
         self.line_2.setObjectName(u"line_2")
         self.line_2.setFrameShape(QFrame.Shape.HLine)
@@ -274,7 +281,7 @@ class Ui_MainWindow(object):
 
         self.periodStartDateEdit = QDateEdit(self.centralwidget)
         self.periodStartDateEdit.setObjectName(u"periodStartDateEdit")
-        self.periodStartDateEdit.setDateTime(QDateTime(QDate(2025, 1, 2), QTime(0, 0, 0)))
+        self.periodStartDateEdit.setDateTime(QDateTime(QDate(2025, 1, 2), QTime(3, 0, 0)))
         self.periodStartDateEdit.setCalendarPopup(True)
 
         self.formLayout.setWidget(0, QFormLayout.FieldRole, self.periodStartDateEdit)
@@ -286,7 +293,7 @@ class Ui_MainWindow(object):
 
         self.periodEndDateEdit = QDateEdit(self.centralwidget)
         self.periodEndDateEdit.setObjectName(u"periodEndDateEdit")
-        self.periodEndDateEdit.setDateTime(QDateTime(QDate(2026, 1, 1), QTime(0, 0, 0)))
+        self.periodEndDateEdit.setDateTime(QDateTime(QDate(2026, 1, 1), QTime(3, 0, 0)))
         self.periodEndDateEdit.setCalendarPopup(True)
 
         self.formLayout.setWidget(1, QFormLayout.FieldRole, self.periodEndDateEdit)
@@ -314,9 +321,9 @@ class Ui_MainWindow(object):
 
         self.dayStartTimeEdit = QTimeEdit(self.centralwidget)
         self.dayStartTimeEdit.setObjectName(u"dayStartTimeEdit")
-        self.dayStartTimeEdit.setDateTime(QDateTime(QDate(2000, 1, 1), QTime(9, 59, 59)))
-        self.dayStartTimeEdit.setMaximumTime(QTime(12, 0, 0))
-        self.dayStartTimeEdit.setMinimumTime(QTime(1, 0, 0))
+        self.dayStartTimeEdit.setDateTime(QDateTime(QDate(2000, 1, 1), QTime(9, 0, 0)))
+        self.dayStartTimeEdit.setMaximumTime(QTime(23, 59, 59))
+        self.dayStartTimeEdit.setMinimumTime(QTime(0, 0, 0))
         self.dayStartTimeEdit.setCalendarPopup(False)
         self.dayStartTimeEdit.setTimeSpec(Qt.TimeSpec.LocalTime)
 
@@ -359,18 +366,13 @@ class Ui_MainWindow(object):
         self.lunchStartSpinBox = QSpinBox(self.centralwidget)
         self.lunchStartSpinBox.setObjectName(u"lunchStartSpinBox")
         self.lunchStartSpinBox.setMinimum(1)
-        self.lunchStartSpinBox.setMaximum(9)
+        self.lunchStartSpinBox.setMaximum(10)
         self.lunchStartSpinBox.setValue(5)
 
         self.formLayout.setWidget(4, QFormLayout.FieldRole, self.lunchStartSpinBox)
 
 
         self.verticalLayout.addLayout(self.formLayout)
-
-        self.gen_button = QPushButton(self.centralwidget)
-        self.gen_button.setObjectName(u"gen_button")
-
-        self.verticalLayout.addWidget(self.gen_button)
 
 
         self.horizontalLayout_2.addLayout(self.verticalLayout)
@@ -388,6 +390,13 @@ class Ui_MainWindow(object):
         self.toolBar.addAction(self.actionNew)
         self.toolBar.addAction(self.actionsave)
         self.toolBar.addAction(self.actionLoad)
+        self.toolBar.addSeparator()
+        self.toolBar.addAction(self.actionAdd_class)
+        self.toolBar.addAction(self.actionRemove_class)
+        self.toolBar.addSeparator()
+        self.toolBar.addAction(self.action_gen)
+        self.toolBar.addAction(self.actionExport)
+        self.toolBar.addAction(self.actionabout)
 
         self.retranslateUi(MainWindow)
 
@@ -400,10 +409,22 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.actionAdd_class.setText(QCoreApplication.translate("MainWindow", u"Add class", None))
-        self.actionRemove_class.setText(QCoreApplication.translate("MainWindow", u"Remove_class", None))
-        self.actionsave.setText(QCoreApplication.translate("MainWindow", u"save", None))
+#if QT_CONFIG(tooltip)
+        self.actionAdd_class.setToolTip(QCoreApplication.translate("MainWindow", u"Adds empty class", None))
+#endif // QT_CONFIG(tooltip)
+        self.actionRemove_class.setText(QCoreApplication.translate("MainWindow", u"Remove class", None))
+#if QT_CONFIG(tooltip)
+        self.actionRemove_class.setToolTip(QCoreApplication.translate("MainWindow", u"Removes class data", None))
+#endif // QT_CONFIG(tooltip)
+        self.actionsave.setText(QCoreApplication.translate("MainWindow", u"Save as", None))
+#if QT_CONFIG(tooltip)
+        self.actionsave.setToolTip(QCoreApplication.translate("MainWindow", u"Save as a .json file", None))
+#endif // QT_CONFIG(tooltip)
         self.actionLoad.setText(QCoreApplication.translate("MainWindow", u"Load", None))
         self.actionNew.setText(QCoreApplication.translate("MainWindow", u"New", None))
+        self.actionabout.setText(QCoreApplication.translate("MainWindow", u"about", None))
+        self.action_gen.setText(QCoreApplication.translate("MainWindow", u"Generate .ics file", None))
+        self.actionExport.setText(QCoreApplication.translate("MainWindow", u"Export to png", None))
         ___qtreewidgetitem = self.treeWidget.headerItem()
         ___qtreewidgetitem.setText(4, QCoreApplication.translate("MainWindow", u"Teacher", None));
         ___qtreewidgetitem.setText(3, QCoreApplication.translate("MainWindow", u"Block", None));
@@ -428,8 +449,6 @@ class Ui_MainWindow(object):
         self.tableWidget.setSortingEnabled(False)
         self.tableWidget.setSortingEnabled(__sortingEnabled)
 
-        self.addClass.setText(QCoreApplication.translate("MainWindow", u"+", None))
-        self.removeClass.setText(QCoreApplication.translate("MainWindow", u"-", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Class settings", None))
         self.classNameLabel.setText(QCoreApplication.translate("MainWindow", u"Class name", None))
         self.classNameLineEdit.setText(QCoreApplication.translate("MainWindow", u"Class", None))
@@ -468,7 +487,6 @@ class Ui_MainWindow(object):
         self.filenameLineEdit.setText(QCoreApplication.translate("MainWindow", u"schedule.ics", None))
         self.lunchTimeLabel.setText(QCoreApplication.translate("MainWindow", u"Lunch time (Minutes)", None))
         self.blockTimeMinutesLabel.setText(QCoreApplication.translate("MainWindow", u"Block time (minutes)", None))
-        self.gen_button.setText(QCoreApplication.translate("MainWindow", u"Generate Ics file", None))
         self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
     # retranslateUi
 

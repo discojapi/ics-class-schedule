@@ -25,10 +25,11 @@ class MainWindow(QMainWindow):
         self.items= []
         self.addClass()
         #Connections
-        self.ui.addClass.clicked.connect(self.addClass)
-        self.ui.removeClass.clicked.connect(self.removeClass)
-        self.ui.gen_button.clicked.connect(self.onGenClicked)
+        self.ui.actionAdd_class.triggered.connect(self.addClass)
+        self.ui.actionRemove_class.triggered.connect(self.removeClass)
+        self.ui.action_gen.triggered.connect(self.onGenClicked)
         self.ui.treeWidget.clicked.connect(self.onActiveItemChange)
+        self.ui.tableWidget.currentItemChanged.connect(self.onTableChange)
         self.ui.dayOfTheWeekComboBox.activated.connect(self.onDayChange)
         self.ui.spinBox.valueChanged.connect(self.onBlockChange)
         self.ui.classNameLineEdit.textEdited.connect(self.onNameChange)
@@ -107,7 +108,7 @@ class MainWindow(QMainWindow):
         self.ui.spinBox.setValue(self.items[self.activeClass].block)
         self.ui.colorComboBox.setCurrentIndex(self.items[self.activeClass].color)
 
-    #Slots    
+    #Slots   
     @Slot(int)
     def onActiveItemChange(self,index):
         self.activeClass = index.row()
@@ -125,6 +126,9 @@ class MainWindow(QMainWindow):
                 self.redraw()
                 return
             check += 1
+
+    def onTableChange(self,a,b):
+        print("Yeah")
 
     def onGenClicked(self):
         try :

@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,1">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="4,5">
       <item>
        <widget class="QTreeWidget" name="treeWidget">
         <property name="sizePolicy">
@@ -72,11 +72,17 @@
         <property name="editTriggers">
          <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
         </property>
+        <property name="dragEnabled">
+         <bool>true</bool>
+        </property>
         <property name="dragDropMode">
-         <enum>QAbstractItemView::DragDropMode::NoDragDrop</enum>
+         <enum>QAbstractItemView::DragDropMode::DragDrop</enum>
         </property>
         <property name="alternatingRowColors">
          <bool>true</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
         </property>
         <property name="showGrid">
          <bool>true</bool>
@@ -103,6 +109,15 @@
          <bool>false</bool>
         </attribute>
         <attribute name="horizontalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderDefaultSectionSize">
+         <number>33</number>
+        </attribute>
+        <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderStretchLastSection">
          <bool>true</bool>
         </attribute>
         <row/>
@@ -176,24 +191,6 @@
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QPushButton" name="addClass">
-          <property name="text">
-           <string>+</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="removeClass">
-          <property name="text">
-           <string>-</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
       <item>
        <widget class="Line" name="line_2">
         <property name="orientation">
@@ -432,7 +429,7 @@
          <widget class="QDateEdit" name="periodStartDateEdit">
           <property name="dateTime">
            <datetime>
-            <hour>0</hour>
+            <hour>3</hour>
             <minute>0</minute>
             <second>0</second>
             <year>2025</year>
@@ -456,7 +453,7 @@
          <widget class="QDateEdit" name="periodEndDateEdit">
           <property name="dateTime">
            <datetime>
-            <hour>0</hour>
+            <hour>3</hour>
             <minute>0</minute>
             <second>0</second>
             <year>2026</year>
@@ -502,8 +499,8 @@
           <property name="dateTime">
            <datetime>
             <hour>9</hour>
-            <minute>59</minute>
-            <second>59</second>
+            <minute>0</minute>
+            <second>0</second>
             <year>2000</year>
             <month>1</month>
             <day>1</day>
@@ -511,14 +508,14 @@
           </property>
           <property name="maximumTime">
            <time>
-            <hour>12</hour>
-            <minute>0</minute>
-            <second>0</second>
+            <hour>23</hour>
+            <minute>59</minute>
+            <second>59</second>
            </time>
           </property>
           <property name="minimumTime">
            <time>
-            <hour>1</hour>
+            <hour>0</hour>
             <minute>0</minute>
             <second>0</second>
            </time>
@@ -588,7 +585,7 @@
            <number>1</number>
           </property>
           <property name="maximum">
-           <number>9</number>
+           <number>10</number>
           </property>
           <property name="value">
            <number>5</number>
@@ -596,13 +593,6 @@
          </widget>
         </item>
        </layout>
-      </item>
-      <item>
-       <widget class="QPushButton" name="gen_button">
-        <property name="text">
-         <string>Generate Ics file</string>
-        </property>
-       </widget>
       </item>
      </layout>
     </item>
@@ -622,6 +612,13 @@
    <addaction name="actionNew"/>
    <addaction name="actionsave"/>
    <addaction name="actionLoad"/>
+   <addaction name="separator"/>
+   <addaction name="actionAdd_class"/>
+   <addaction name="actionRemove_class"/>
+   <addaction name="separator"/>
+   <addaction name="action_gen"/>
+   <addaction name="actionExport"/>
+   <addaction name="actionabout"/>
   </widget>
   <action name="actionAdd_class">
    <property name="icon">
@@ -629,6 +626,9 @@
    </property>
    <property name="text">
     <string>Add class</string>
+   </property>
+   <property name="toolTip">
+    <string>Adds empty class</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -639,7 +639,10 @@
     <iconset theme="QIcon::ThemeIcon::EditDelete"/>
    </property>
    <property name="text">
-    <string>Remove_class</string>
+    <string>Remove class</string>
+   </property>
+   <property name="toolTip">
+    <string>Removes class data</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -650,7 +653,10 @@
     <iconset theme="QIcon::ThemeIcon::DocumentSaveAs"/>
    </property>
    <property name="text">
-    <string>save</string>
+    <string>Save as</string>
+   </property>
+   <property name="toolTip">
+    <string>Save as a .json file</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -673,6 +679,39 @@
    </property>
    <property name="text">
     <string>New</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionabout">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::HelpAbout"/>
+   </property>
+   <property name="text">
+    <string>about</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::AboutRole</enum>
+   </property>
+  </action>
+  <action name="action_gen">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::AppointmentNew"/>
+   </property>
+   <property name="text">
+    <string>Generate .ics file</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionExport">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::InsertImage"/>
+   </property>
+   <property name="text">
+    <string>Export to png</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
