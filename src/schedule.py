@@ -1,6 +1,6 @@
 class SchClass:
-    # name:String, day:int (1-7), block:Int (1-9), desc:String, teacher:String
-    def __init__(self, name="Class", day=1, block=1,desc="", teacher="", notes="", classroom=""):
+    # name:String, day:int (1-7), block:Int (1-9), desc:String, teacher:String, color:Int (Color set on main.py)
+    def __init__(self, name="Class", day=1, block=1,desc="", teacher="", notes="", classroom="",color=0):
         self.name = name
         self.day = day
         self.block = block
@@ -8,6 +8,7 @@ class SchClass:
         self.teacher = teacher
         self.notes = notes
         self.classroom = classroom
+        self.color = color
     
 class Configs:
     # p= Period, b= Block, l= Lunch, d= Day

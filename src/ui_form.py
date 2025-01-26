@@ -228,6 +228,25 @@ class Ui_MainWindow(object):
 
         self.formLayout_2.setWidget(4, QFormLayout.FieldRole, self.spinBox)
 
+        self.colorLabel = QLabel(self.centralwidget)
+        self.colorLabel.setObjectName(u"colorLabel")
+
+        self.formLayout_2.setWidget(7, QFormLayout.LabelRole, self.colorLabel)
+
+        self.colorComboBox = QComboBox(self.centralwidget)
+        self.colorComboBox.addItem("")
+        self.colorComboBox.addItem("")
+        self.colorComboBox.addItem("")
+        self.colorComboBox.addItem("")
+        self.colorComboBox.addItem("")
+        self.colorComboBox.addItem("")
+        self.colorComboBox.addItem("")
+        self.colorComboBox.addItem("")
+        self.colorComboBox.addItem("")
+        self.colorComboBox.setObjectName(u"colorComboBox")
+
+        self.formLayout_2.setWidget(7, QFormLayout.FieldRole, self.colorComboBox)
+
 
         self.verticalLayout.addLayout(self.formLayout_2)
 
@@ -365,6 +384,9 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
+        self.colorComboBox.setCurrentIndex(0)
+
+
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
@@ -417,6 +439,17 @@ class Ui_MainWindow(object):
         self.blockSetupLabel.setText(QCoreApplication.translate("MainWindow", u"Block", None))
         self.notesLabel.setText(QCoreApplication.translate("MainWindow", u"Notes", None))
         self.classroomLabel.setText(QCoreApplication.translate("MainWindow", u"Classroom", None))
+        self.colorLabel.setText(QCoreApplication.translate("MainWindow", u"Color", None))
+        self.colorComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"Red", None))
+        self.colorComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"Yellow", None))
+        self.colorComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Brown", None))
+        self.colorComboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"Blue", None))
+        self.colorComboBox.setItemText(4, QCoreApplication.translate("MainWindow", u"Green", None))
+        self.colorComboBox.setItemText(5, QCoreApplication.translate("MainWindow", u"Gray", None))
+        self.colorComboBox.setItemText(6, QCoreApplication.translate("MainWindow", u"Purple", None))
+        self.colorComboBox.setItemText(7, QCoreApplication.translate("MainWindow", u"Orange", None))
+        self.colorComboBox.setItemText(8, QCoreApplication.translate("MainWindow", u"Pink", None))
+
         self.label.setText(QCoreApplication.translate("MainWindow", u"Schedule settings", None))
         self.periodStartLabel.setText(QCoreApplication.translate("MainWindow", u"Period start", None))
         self.periodEndLabel.setText(QCoreApplication.translate("MainWindow", u"Period end", None))

@@ -18,6 +18,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         #Setup
+        self.colorSet=["red","yellow","brown","blue","green","purple","gray","orange","pink"]
         self.configs = Configs(0,0,0,0,0,0,0,"schedule.ics")
         self.activeClass = 0
         self.items= []
@@ -34,6 +35,7 @@ class MainWindow(QMainWindow):
         self.ui.classroomLineEdit.textEdited.connect(self.onClassroomChange)
         self.ui.notesLineEdit.textEdited.connect(self.onNotesChange)
         self.ui.tableWidget.cellClicked.connect(self.onActiveTableItemChange)
+        self.ui.colorComboBox.activated.connect(self.onColorChange)
 
     def redraw(self):
         self.ui.treeWidget.clear()
@@ -57,7 +59,7 @@ class MainWindow(QMainWindow):
             (day,block) = checkTime(item,False)
             tb = QTableWidgetItem()
             tb.setText(item.name)
-            tb.setBackground(QColor("orange"))
+            tb.setBackground(QColor(self.colorSet[item.color]))
             self.ui.tableWidget.setItem(block-1,day-1,tb)
             check += 1
         self.ui.classNameLineEdit.setText(self.items[self.activeClass].name)
@@ -66,6 +68,7 @@ class MainWindow(QMainWindow):
         self.ui.classroomLineEdit.setText(self.items[self.activeClass].classroom)
         self.ui.dayOfTheWeekComboBox.setCurrentIndex(self.items[self.activeClass].day-1)
         self.ui.spinBox.setValue(self.items[self.activeClass].block)
+        self.ui.colorComboBox.setCurrentIndex(self.items[self.activeClass].color)
 
     #Slots    
     @Slot(int)
@@ -122,6 +125,9 @@ class MainWindow(QMainWindow):
     @Slot(str)
     def onClassroomChange(self,classroom):
         self.items[self.activeClass].classroom = classroom
+        self.redraw()
+    def onColorChange(self,color):
+        self.items[self.activeClass].color = color
         self.redraw()
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@ import schedule
 # class layout, and others.
 
 def process(items, configs : schedule.Configs):
-    file = open(configs.filename,"w")
+    file = open(configs.filename,"w",encoding="utf-8")
     for a in items:
         file.write(a.name + "\n")
     file.close()
