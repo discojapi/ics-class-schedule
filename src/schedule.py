@@ -14,7 +14,7 @@ class SchClass:
     
 class Configs:
     # p= Period, b= Block, l= Lunch, d= Day ; dStart[h,m]
-    def __init__(self, pStart=0, pEnd=0, bTime=0, breakT=0, lStart=5, lTime=0, dStart=[8,15], filename="schedule.ics"):
+    def __init__(self, pStart=0, pEnd=0, bTime=70, breakT=15, lStart=5, lTime=60, dStart=[8,15], filename="schedule.ics"):
         self.pStart = pStart
         self.pEnd = pEnd
         self.bTime = bTime

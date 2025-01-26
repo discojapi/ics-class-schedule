@@ -49,6 +49,25 @@ class MainWindow(QMainWindow):
         self.ui.treeWidget.clear()
         self.ui.tableWidget.clearContents()
         check = 0
+        #Vertical header setup
+        cBlock = 1
+        headers = []
+        cTime = (self.configs.dStart[0],self.configs.dStart[1])
+        for block in range(0,12):
+            nTabItem = QTableWidgetItem()
+            if block+1 == self.configs.lStart:
+                nTabItem.setText("Lunch")
+                cTime = checkDiff(*(cTime),self.configs.lTime)
+            else:
+                nLabel = f"{cBlock}-({cTime[0]}:{cTime[1]}-"
+                cTime = checkDiff(*(cTime),self.configs.bTime)
+                nLabel += f"{cTime[0]}:{cTime[1]})"
+                nTabItem.setText(nLabel)
+                headers.append(nLabel)
+                cBlock += 1
+                if block+2 != self.configs.lStart:
+                    cTime = checkDiff(*(cTime),self.configs.breakT)
+            self.ui.tableWidget.setVerticalHeaderItem(block,nTabItem)
         for item in self.items:
             #Tree list
             it = QTreeWidgetItem()
@@ -57,10 +76,13 @@ class MainWindow(QMainWindow):
             else:
                 it.setCheckState(0,Qt.CheckState.Unchecked)
             it.setText(1,item.name)
+            it.setBackground(1,QColor(self.colorSet[item.color]))
+            if self.colorSet[item.color] == "pink" or self.colorSet[item.color] == "yellow" or self.colorSet[item.color] == "orange":
+                it.setForeground(1,QColor("black"))
             it.setText(4,item.teacher)
             (day,block) = checkTime(item,True)
             it.setText(2,day)
-            it.setText(3,str(block))
+            it.setText(3,headers[item.block-1])
             it.setFlags(Qt.ItemIsSelectable|Qt.ItemIsEnabled)
             self.ui.treeWidget.addTopLevelItem(it)
             #Table
@@ -68,24 +90,14 @@ class MainWindow(QMainWindow):
             tb = QTableWidgetItem()
             tb.setText(item.name)
             tb.setBackground(QColor(self.colorSet[item.color]))
-            if self.colorSet[item.color] == "pink" or self.colorSet[item.color] == "yellow":
+            if self.colorSet[item.color] == "pink" or self.colorSet[item.color] == "yellow" or self.colorSet[item.color] == "orange":
                 tb.setForeground(QColor("black"))
             if item.block >= self.configs.lStart :
                 self.ui.tableWidget.setItem(block,day-1,tb)
             else:
                 self.ui.tableWidget.setItem(block-1,day-1,tb)
             check += 1
-        cBlock = 1
-        cTime = (self.configs.dStart[0],self.configs.dStart[1])
-        for block in range(0,12):
-            nTabItem = QTableWidgetItem()
-            if block+1 == self.configs.lStart:
-                nTabItem.setText("Lunch")
-                cTime = checkDiff(*(cTime),self.configs.lTime)
-            else:
-                nTabItem.setText(f"{cBlock}-(00:00-00:00)")
-                cBlock += 1
-            self.ui.tableWidget.setVerticalHeaderItem(block,nTabItem)
+        
         
         self.ui.classNameLineEdit.setText(self.items[self.activeClass].name)
         self.ui.teacherLineEdit.setText(self.items[self.activeClass].teacher)
@@ -103,6 +115,10 @@ class MainWindow(QMainWindow):
     @Slot(int,int)
     def onActiveTableItemChange(self,row,column):
         check = 0
+        if row+1 == self.configs.lStart:
+            row = -1
+        elif row+1 > self.configs.lStart:
+            row -= 1
         for item in self.items:
             if checkTime(item,False) == (column+1,row+1):
                 self.activeClass = check
@@ -165,7 +181,7 @@ class MainWindow(QMainWindow):
         self.configs.lStart = block
         self.redraw()
     def onLunchTimeChange(self,time):
-        self.configs.lTime(time)
+        self.configs.lTime=time
         self.redraw()
     def onFilenameChange(self,filename):
         self.configs.filename = filename
