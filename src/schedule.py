@@ -1,5 +1,5 @@
 class SchClass:
-    # name:String, day:int (1-7), block:Int (1-9), desc:String, teacher:String, color:Int (Color set on main.py)
+    # name:String, day:int (1-7), block:Int (1-10), desc:String, teacher:String, color:Int (Color set on main.py)
     def __init__(self, name="Class", day=1, block=1,desc="", teacher="", notes="", classroom="",color=0):
         self.name = name
         self.day = day
@@ -12,7 +12,7 @@ class SchClass:
     
 class Configs:
     # p= Period, b= Block, l= Lunch, d= Day
-    def __init__(self, pStart, pEnd, bTime, breakT, lStart, lTime, dStart, filename):
+    def __init__(self, pStart=0, pEnd=0, bTime=0, breakT=0, lStart=5, lTime=0, dStart=0, filename="schedule.ics"):
         self.pStart = pStart
         self.pEnd = pEnd
         self.bTime = bTime

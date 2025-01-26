@@ -88,7 +88,7 @@
          <bool>false</bool>
         </property>
         <property name="rowCount">
-         <number>9</number>
+         <number>11</number>
         </property>
         <attribute name="horizontalHeaderVisible">
          <bool>true</bool>
@@ -105,6 +105,8 @@
         <attribute name="horizontalHeaderStretchLastSection">
          <bool>true</bool>
         </attribute>
+        <row/>
+        <row/>
         <row/>
         <row/>
         <row/>
@@ -326,7 +328,7 @@
            <number>1</number>
           </property>
           <property name="maximum">
-           <number>9</number>
+           <number>10</number>
           </property>
           <property name="value">
            <number>1</number>
@@ -344,6 +346,9 @@
          <widget class="QComboBox" name="colorComboBox">
           <property name="currentIndex">
            <number>0</number>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
           </property>
           <item>
            <property name="text">

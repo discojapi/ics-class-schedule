@@ -2,7 +2,7 @@
 import sys
 from schedule import SchClass, checkTime, Configs
 from PySide6.QtCore import Qt, Slot
-from PySide6.QtWidgets import QApplication, QMainWindow, QTreeWidgetItem, QMessageBox, QTableWidgetItem
+from PySide6.QtWidgets import QApplication, QMainWindow, QTreeWidgetItem, QMessageBox, QTableWidgetItem, QHeaderView
 from PySide6.QtGui import QColor
 
 # Important:
@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         #Setup
         self.colorSet=["red","yellow","brown","blue","green","purple","gray","orange","pink"]
-        self.configs = Configs(0,0,0,0,0,0,0,"schedule.ics")
+        self.configs = Configs()
         self.activeClass = 0
         self.items= []
         self.addClass()
@@ -60,8 +60,23 @@ class MainWindow(QMainWindow):
             tb = QTableWidgetItem()
             tb.setText(item.name)
             tb.setBackground(QColor(self.colorSet[item.color]))
-            self.ui.tableWidget.setItem(block-1,day-1,tb)
+            if self.colorSet[item.color] == "pink" or self.colorSet[item.color] == "yellow":
+                tb.setForeground(QColor("black"))
+            if item.block >= self.configs.lStart :
+                self.ui.tableWidget.setItem(block,day-1,tb)
+            else:
+                self.ui.tableWidget.setItem(block-1,day-1,tb)
             check += 1
+        cBlock = 1
+        for block in range(0,12):
+            nTabItem = QTableWidgetItem()
+            if block+1 == self.configs.lStart:
+                nTabItem.setText("Lunch")
+            else:
+                nTabItem.setText(str(cBlock))
+                cBlock += 1
+            self.ui.tableWidget.setVerticalHeaderItem(block,nTabItem)
+        
         self.ui.classNameLineEdit.setText(self.items[self.activeClass].name)
         self.ui.teacherLineEdit.setText(self.items[self.activeClass].teacher)
         self.ui.notesLineEdit.setText(self.items[self.activeClass].notes)

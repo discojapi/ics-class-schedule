@@ -91,8 +91,8 @@ class Ui_MainWindow(object):
         self.tableWidget.setHorizontalHeaderItem(5, __qtablewidgetitem5)
         __qtablewidgetitem6 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(6, __qtablewidgetitem6)
-        if (self.tableWidget.rowCount() < 9):
-            self.tableWidget.setRowCount(9)
+        if (self.tableWidget.rowCount() < 11):
+            self.tableWidget.setRowCount(11)
         brush = QBrush(QColor(0, 0, 0, 255))
         brush.setStyle(Qt.NoBrush)
         __qtablewidgetitem7 = QTableWidgetItem()
@@ -108,7 +108,7 @@ class Ui_MainWindow(object):
         self.tableWidget.setShowGrid(True)
         self.tableWidget.setGridStyle(Qt.PenStyle.DashLine)
         self.tableWidget.setWordWrap(False)
-        self.tableWidget.setRowCount(9)
+        self.tableWidget.setRowCount(11)
         self.tableWidget.horizontalHeader().setVisible(True)
         self.tableWidget.horizontalHeader().setCascadingSectionResizes(False)
         self.tableWidget.horizontalHeader().setHighlightSections(True)
@@ -223,7 +223,7 @@ class Ui_MainWindow(object):
         self.spinBox = QSpinBox(self.centralwidget)
         self.spinBox.setObjectName(u"spinBox")
         self.spinBox.setMinimum(1)
-        self.spinBox.setMaximum(9)
+        self.spinBox.setMaximum(10)
         self.spinBox.setValue(1)
 
         self.formLayout_2.setWidget(4, QFormLayout.FieldRole, self.spinBox)
@@ -244,6 +244,7 @@ class Ui_MainWindow(object):
         self.colorComboBox.addItem("")
         self.colorComboBox.addItem("")
         self.colorComboBox.setObjectName(u"colorComboBox")
+        self.colorComboBox.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToContents)
 
         self.formLayout_2.setWidget(7, QFormLayout.FieldRole, self.colorComboBox)
 
