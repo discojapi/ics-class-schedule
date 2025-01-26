@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,1">
+   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,0">
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="4,5">
       <item>
@@ -76,7 +76,10 @@
          <bool>true</bool>
         </property>
         <property name="dragDropMode">
-         <enum>QAbstractItemView::DragDropMode::DragDrop</enum>
+         <enum>QAbstractItemView::DragDropMode::InternalMove</enum>
+        </property>
+        <property name="defaultDropAction">
+         <enum>Qt::DropAction::ActionMask</enum>
         </property>
         <property name="alternatingRowColors">
          <bool>true</bool>
@@ -191,13 +194,6 @@
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="Line" name="line_2">
-        <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
       <item alignment="Qt::AlignmentFlag::AlignVCenter">
        <widget class="QLabel" name="label_2">
         <property name="sizePolicy">
@@ -220,7 +216,7 @@
       <item>
        <layout class="QFormLayout" name="formLayout_2">
         <property name="formAlignment">
-         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
+         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
         <item row="1" column="0">
          <widget class="QLabel" name="classNameLabel">
@@ -416,7 +412,7 @@
          <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
         </property>
         <property name="formAlignment">
-         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
+         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
         <item row="0" column="0">
          <widget class="QLabel" name="periodStartLabel">
@@ -429,7 +425,7 @@
          <widget class="QDateEdit" name="periodStartDateEdit">
           <property name="dateTime">
            <datetime>
-            <hour>3</hour>
+            <hour>6</hour>
             <minute>0</minute>
             <second>0</second>
             <year>2025</year>
@@ -453,7 +449,7 @@
          <widget class="QDateEdit" name="periodEndDateEdit">
           <property name="dateTime">
            <datetime>
-            <hour>3</hour>
+            <hour>6</hour>
             <minute>0</minute>
             <second>0</second>
             <year>2026</year>
@@ -463,6 +459,20 @@
           </property>
           <property name="calendarPopup">
            <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="blockTimeMinutesLabel">
+          <property name="text">
+           <string>Block time (minutes)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="blockTimeMinutesSpinBox">
+          <property name="value">
+           <number>70</number>
           </property>
          </widget>
         </item>
@@ -484,6 +494,39 @@
          <widget class="QLabel" name="lunchStartLabel">
           <property name="text">
            <string>Lunch start block</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QSpinBox" name="lunchStartSpinBox">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>10</number>
+          </property>
+          <property name="value">
+           <number>5</number>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="lunchTimeLabel">
+          <property name="text">
+           <string>Lunch time (Minutes)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QSpinBox" name="lunchTimeSpinBox">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>200</number>
+          </property>
+          <property name="value">
+           <number>60</number>
           </property>
          </widget>
         </item>
@@ -532,63 +575,41 @@
          </widget>
         </item>
         <item row="7" column="0">
-         <widget class="QLabel" name="filenameLabel">
-          <property name="text">
-           <string>Filename</string>
+         <widget class="Line" name="line_2">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
          </widget>
         </item>
-        <item row="7" column="1">
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line_3">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Export settings</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayout_3">
+        <item row="0" column="0">
+         <widget class="QLabel" name="filenameLabel">
+          <property name="text">
+           <string>Calendar filename</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
          <widget class="QLineEdit" name="filenameLineEdit">
           <property name="text">
            <string>schedule.ics</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="lunchTimeLabel">
-          <property name="text">
-           <string>Lunch time (Minutes)</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QSpinBox" name="lunchTimeSpinBox">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>200</number>
-          </property>
-          <property name="value">
-           <number>60</number>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="blockTimeMinutesLabel">
-          <property name="text">
-           <string>Block time (minutes)</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QSpinBox" name="blockTimeMinutesSpinBox">
-          <property name="value">
-           <number>70</number>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QSpinBox" name="lunchStartSpinBox">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>10</number>
-          </property>
-          <property name="value">
-           <number>5</number>
           </property>
          </widget>
         </item>
@@ -614,6 +635,7 @@
    <addaction name="actionLoad"/>
    <addaction name="separator"/>
    <addaction name="actionAdd_class"/>
+   <addaction name="actionDuplicate_class"/>
    <addaction name="actionRemove_class"/>
    <addaction name="separator"/>
    <addaction name="action_gen"/>
@@ -712,6 +734,20 @@
    </property>
    <property name="text">
     <string>Export to png</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionDuplicate_class">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::EditCopy"/>
+   </property>
+   <property name="text">
+    <string>Duplicate class</string>
+   </property>
+   <property name="toolTip">
+    <string>Clone selected event</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>

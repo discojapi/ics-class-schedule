@@ -2,7 +2,7 @@
 import sys
 from schedule import SchClass, checkTime, Configs, checkDiff
 from PySide6.QtCore import Qt, Slot
-from PySide6.QtWidgets import QApplication, QMainWindow, QTreeWidgetItem, QMessageBox, QTableWidgetItem
+from PySide6.QtWidgets import QApplication, QMainWindow, QTreeWidgetItem, QMessageBox, QTableWidgetItem, QFileDialog
 from PySide6.QtGui import QColor
 import math
 
@@ -11,7 +11,7 @@ import math
 #     pyside6-uic form.ui -o ui_form.py, or
 #     pyside2-uic form.ui -o ui_form.py
 from ui_form import Ui_MainWindow
-from ics_tools import process
+from file_tools import process, save, load
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -20,16 +20,19 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         #Setup
         self.colorSet=["red","yellow","brown","blue","green","purple","gray","orange","pink"]
-        self.configs = Configs()
         self.activeClass = 0
         self.items= []
-        self.addClass()
+        self.configs = Configs()
+        self.onNewSchedule()
         #Connections
+        self.ui.actionNew.triggered.connect(self.onNewSchedule)
+        self.ui.actionsave.triggered.connect(self.onSaveFile)
+        self.ui.actionLoad.triggered.connect(self.onLoadFile)
         self.ui.actionAdd_class.triggered.connect(self.addClass)
+        self.ui.actionDuplicate_class.triggered.connect(self.onCloneClicked)
         self.ui.actionRemove_class.triggered.connect(self.removeClass)
         self.ui.action_gen.triggered.connect(self.onGenClicked)
         self.ui.treeWidget.clicked.connect(self.onActiveItemChange)
-        self.ui.tableWidget.currentItemChanged.connect(self.onTableChange)
         self.ui.dayOfTheWeekComboBox.activated.connect(self.onDayChange)
         self.ui.spinBox.valueChanged.connect(self.onBlockChange)
         self.ui.classNameLineEdit.textEdited.connect(self.onNameChange)
@@ -127,8 +130,29 @@ class MainWindow(QMainWindow):
                 return
             check += 1
 
-    def onTableChange(self,a,b):
-        print("Yeah")
+    def onSaveFile(self):
+        newFile = QFileDialog.getSaveFileName(self, ("Save Schedule"),"schedule.txt",("Text file (*.txt)"))
+        if newFile != ('', ''):
+            try:
+                save(self.items, self.configs, newFile[0])
+            except:
+                QMessageBox.warning(self,"Error","Couldn't save your file, please check your configurations")
+
+    def onLoadFile(self):
+        fileName = QFileDialog.getOpenFileName(self, ("Open Schedule"), "schedule.txt", ("Text file (*.txt)"))
+        if fileName != ('', ''):
+            try:
+                self.activeClass = 0
+                load(self.items, self.configs, fileName[0])
+                self.redraw()
+            except:
+                QMessageBox.warning(self,"Error","Couldn't load your file")
+
+    def onNewSchedule(self):
+        self.items.clear()
+        self.configs = Configs()
+        self.addClass()
+        self.redraw()
 
     def onGenClicked(self):
         try :
@@ -136,7 +160,11 @@ class MainWindow(QMainWindow):
             QMessageBox.information(self, "Generated", "Your calendar file "+ self.configs.filename + " has been generated successfully")
         except : 
             QMessageBox.warning(self,"Error","Couldn't generate .ics file, please check your configurations")
-
+    def onCloneClicked(self):
+        clone = self.items[self.activeClass]
+        self.items.append(SchClass(clone.name, clone.day, clone.block, clone.teacher, clone.notes, clone.classroom, clone.color))
+        self.activeClass = len(self.items)-1
+        self.redraw()
     @Slot()  
     def addClass(self):
         self.items.append(SchClass())
@@ -146,7 +174,8 @@ class MainWindow(QMainWindow):
     def removeClass(self):
         if len(self.items) > 1:
             self.items.pop(self.activeClass)
-            self.activeClass = len(self.items)-1
+            if self.activeClass >=  len(self.items)-1:
+                self.activeClass = len(self.items)-1
         self.redraw()
     @Slot(str)
     def onNameChange(self):

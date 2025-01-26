@@ -1,12 +1,11 @@
 import math
 
 class SchClass:
-    # name:String, day:int (1-7), block:Int (1-10), desc:String, teacher:String, color:Int (Color set on main.py)
-    def __init__(self, name="Class", day=1, block=1,desc="", teacher="", notes="", classroom="",color=0):
+    # name:String, day:int (1-7), block:Int (1-10),  teacher:String, color:Int (Color set on main.py)
+    def __init__(self, name="Class", day=1, block=1, teacher="", notes="", classroom="",color=0):
         self.name = name
         self.day = day
         self.block = block
-        self.dec = desc
         self.teacher = teacher
         self.notes = notes
         self.classroom = classroom

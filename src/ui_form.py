@@ -68,6 +68,11 @@ class Ui_MainWindow(object):
         icon7 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.InsertImage))
         self.actionExport.setIcon(icon7)
         self.actionExport.setMenuRole(QAction.MenuRole.NoRole)
+        self.actionDuplicate_class = QAction(MainWindow)
+        self.actionDuplicate_class.setObjectName(u"actionDuplicate_class")
+        icon8 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditCopy))
+        self.actionDuplicate_class.setIcon(icon8)
+        self.actionDuplicate_class.setMenuRole(QAction.MenuRole.NoRole)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.horizontalLayout_2 = QHBoxLayout(self.centralwidget)
@@ -119,7 +124,8 @@ class Ui_MainWindow(object):
         self.tableWidget.setFrameShape(QFrame.Shape.StyledPanel)
         self.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.tableWidget.setDragEnabled(True)
-        self.tableWidget.setDragDropMode(QAbstractItemView.DragDropMode.DragDrop)
+        self.tableWidget.setDragDropMode(QAbstractItemView.DragDropMode.InternalMove)
+        self.tableWidget.setDefaultDropAction(Qt.DropAction.ActionMask)
         self.tableWidget.setAlternatingRowColors(True)
         self.tableWidget.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         self.tableWidget.setShowGrid(True)
@@ -144,13 +150,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.line_2 = QFrame(self.centralwidget)
-        self.line_2.setObjectName(u"line_2")
-        self.line_2.setFrameShape(QFrame.Shape.HLine)
-        self.line_2.setFrameShadow(QFrame.Shadow.Sunken)
-
-        self.verticalLayout.addWidget(self.line_2)
-
         self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Expanding)
@@ -164,7 +163,7 @@ class Ui_MainWindow(object):
 
         self.formLayout_2 = QFormLayout()
         self.formLayout_2.setObjectName(u"formLayout_2")
-        self.formLayout_2.setFormAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignTop)
+        self.formLayout_2.setFormAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
         self.classNameLabel = QLabel(self.centralwidget)
         self.classNameLabel.setObjectName(u"classNameLabel")
 
@@ -273,7 +272,7 @@ class Ui_MainWindow(object):
         self.formLayout = QFormLayout()
         self.formLayout.setObjectName(u"formLayout")
         self.formLayout.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
-        self.formLayout.setFormAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignTop)
+        self.formLayout.setFormAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
         self.periodStartLabel = QLabel(self.centralwidget)
         self.periodStartLabel.setObjectName(u"periodStartLabel")
 
@@ -281,7 +280,7 @@ class Ui_MainWindow(object):
 
         self.periodStartDateEdit = QDateEdit(self.centralwidget)
         self.periodStartDateEdit.setObjectName(u"periodStartDateEdit")
-        self.periodStartDateEdit.setDateTime(QDateTime(QDate(2025, 1, 2), QTime(3, 0, 0)))
+        self.periodStartDateEdit.setDateTime(QDateTime(QDate(2025, 1, 2), QTime(6, 0, 0)))
         self.periodStartDateEdit.setCalendarPopup(True)
 
         self.formLayout.setWidget(0, QFormLayout.FieldRole, self.periodStartDateEdit)
@@ -293,10 +292,21 @@ class Ui_MainWindow(object):
 
         self.periodEndDateEdit = QDateEdit(self.centralwidget)
         self.periodEndDateEdit.setObjectName(u"periodEndDateEdit")
-        self.periodEndDateEdit.setDateTime(QDateTime(QDate(2026, 1, 1), QTime(3, 0, 0)))
+        self.periodEndDateEdit.setDateTime(QDateTime(QDate(2026, 1, 1), QTime(6, 0, 0)))
         self.periodEndDateEdit.setCalendarPopup(True)
 
         self.formLayout.setWidget(1, QFormLayout.FieldRole, self.periodEndDateEdit)
+
+        self.blockTimeMinutesLabel = QLabel(self.centralwidget)
+        self.blockTimeMinutesLabel.setObjectName(u"blockTimeMinutesLabel")
+
+        self.formLayout.setWidget(2, QFormLayout.LabelRole, self.blockTimeMinutesLabel)
+
+        self.blockTimeMinutesSpinBox = QSpinBox(self.centralwidget)
+        self.blockTimeMinutesSpinBox.setObjectName(u"blockTimeMinutesSpinBox")
+        self.blockTimeMinutesSpinBox.setValue(70)
+
+        self.formLayout.setWidget(2, QFormLayout.FieldRole, self.blockTimeMinutesSpinBox)
 
         self.timeBetweenBlockLabel = QLabel(self.centralwidget)
         self.timeBetweenBlockLabel.setObjectName(u"timeBetweenBlockLabel")
@@ -314,6 +324,27 @@ class Ui_MainWindow(object):
 
         self.formLayout.setWidget(4, QFormLayout.LabelRole, self.lunchStartLabel)
 
+        self.lunchStartSpinBox = QSpinBox(self.centralwidget)
+        self.lunchStartSpinBox.setObjectName(u"lunchStartSpinBox")
+        self.lunchStartSpinBox.setMinimum(1)
+        self.lunchStartSpinBox.setMaximum(10)
+        self.lunchStartSpinBox.setValue(5)
+
+        self.formLayout.setWidget(4, QFormLayout.FieldRole, self.lunchStartSpinBox)
+
+        self.lunchTimeLabel = QLabel(self.centralwidget)
+        self.lunchTimeLabel.setObjectName(u"lunchTimeLabel")
+
+        self.formLayout.setWidget(5, QFormLayout.LabelRole, self.lunchTimeLabel)
+
+        self.lunchTimeSpinBox = QSpinBox(self.centralwidget)
+        self.lunchTimeSpinBox.setObjectName(u"lunchTimeSpinBox")
+        self.lunchTimeSpinBox.setMinimum(1)
+        self.lunchTimeSpinBox.setMaximum(200)
+        self.lunchTimeSpinBox.setValue(60)
+
+        self.formLayout.setWidget(5, QFormLayout.FieldRole, self.lunchTimeSpinBox)
+
         self.dayStartLabel = QLabel(self.centralwidget)
         self.dayStartLabel.setObjectName(u"dayStartLabel")
 
@@ -329,56 +360,47 @@ class Ui_MainWindow(object):
 
         self.formLayout.setWidget(6, QFormLayout.FieldRole, self.dayStartTimeEdit)
 
+        self.line_2 = QFrame(self.centralwidget)
+        self.line_2.setObjectName(u"line_2")
+        self.line_2.setFrameShape(QFrame.Shape.HLine)
+        self.line_2.setFrameShadow(QFrame.Shadow.Sunken)
+
+        self.formLayout.setWidget(7, QFormLayout.LabelRole, self.line_2)
+
+
+        self.verticalLayout.addLayout(self.formLayout)
+
+        self.line_3 = QFrame(self.centralwidget)
+        self.line_3.setObjectName(u"line_3")
+        self.line_3.setFrameShape(QFrame.Shape.HLine)
+        self.line_3.setFrameShadow(QFrame.Shadow.Sunken)
+
+        self.verticalLayout.addWidget(self.line_3)
+
+        self.label_3 = QLabel(self.centralwidget)
+        self.label_3.setObjectName(u"label_3")
+
+        self.verticalLayout.addWidget(self.label_3)
+
+        self.formLayout_3 = QFormLayout()
+        self.formLayout_3.setObjectName(u"formLayout_3")
         self.filenameLabel = QLabel(self.centralwidget)
         self.filenameLabel.setObjectName(u"filenameLabel")
 
-        self.formLayout.setWidget(7, QFormLayout.LabelRole, self.filenameLabel)
+        self.formLayout_3.setWidget(0, QFormLayout.LabelRole, self.filenameLabel)
 
         self.filenameLineEdit = QLineEdit(self.centralwidget)
         self.filenameLineEdit.setObjectName(u"filenameLineEdit")
 
-        self.formLayout.setWidget(7, QFormLayout.FieldRole, self.filenameLineEdit)
-
-        self.lunchTimeLabel = QLabel(self.centralwidget)
-        self.lunchTimeLabel.setObjectName(u"lunchTimeLabel")
-
-        self.formLayout.setWidget(5, QFormLayout.LabelRole, self.lunchTimeLabel)
-
-        self.lunchTimeSpinBox = QSpinBox(self.centralwidget)
-        self.lunchTimeSpinBox.setObjectName(u"lunchTimeSpinBox")
-        self.lunchTimeSpinBox.setMinimum(1)
-        self.lunchTimeSpinBox.setMaximum(200)
-        self.lunchTimeSpinBox.setValue(60)
-
-        self.formLayout.setWidget(5, QFormLayout.FieldRole, self.lunchTimeSpinBox)
-
-        self.blockTimeMinutesLabel = QLabel(self.centralwidget)
-        self.blockTimeMinutesLabel.setObjectName(u"blockTimeMinutesLabel")
-
-        self.formLayout.setWidget(2, QFormLayout.LabelRole, self.blockTimeMinutesLabel)
-
-        self.blockTimeMinutesSpinBox = QSpinBox(self.centralwidget)
-        self.blockTimeMinutesSpinBox.setObjectName(u"blockTimeMinutesSpinBox")
-        self.blockTimeMinutesSpinBox.setValue(70)
-
-        self.formLayout.setWidget(2, QFormLayout.FieldRole, self.blockTimeMinutesSpinBox)
-
-        self.lunchStartSpinBox = QSpinBox(self.centralwidget)
-        self.lunchStartSpinBox.setObjectName(u"lunchStartSpinBox")
-        self.lunchStartSpinBox.setMinimum(1)
-        self.lunchStartSpinBox.setMaximum(10)
-        self.lunchStartSpinBox.setValue(5)
-
-        self.formLayout.setWidget(4, QFormLayout.FieldRole, self.lunchStartSpinBox)
+        self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.filenameLineEdit)
 
 
-        self.verticalLayout.addLayout(self.formLayout)
+        self.verticalLayout.addLayout(self.formLayout_3)
 
 
         self.horizontalLayout_2.addLayout(self.verticalLayout)
 
         self.horizontalLayout_2.setStretch(0, 2)
-        self.horizontalLayout_2.setStretch(1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -392,6 +414,7 @@ class Ui_MainWindow(object):
         self.toolBar.addAction(self.actionLoad)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.actionAdd_class)
+        self.toolBar.addAction(self.actionDuplicate_class)
         self.toolBar.addAction(self.actionRemove_class)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.action_gen)
@@ -425,6 +448,10 @@ class Ui_MainWindow(object):
         self.actionabout.setText(QCoreApplication.translate("MainWindow", u"about", None))
         self.action_gen.setText(QCoreApplication.translate("MainWindow", u"Generate .ics file", None))
         self.actionExport.setText(QCoreApplication.translate("MainWindow", u"Export to png", None))
+        self.actionDuplicate_class.setText(QCoreApplication.translate("MainWindow", u"Duplicate class", None))
+#if QT_CONFIG(tooltip)
+        self.actionDuplicate_class.setToolTip(QCoreApplication.translate("MainWindow", u"Clone selected event", None))
+#endif // QT_CONFIG(tooltip)
         ___qtreewidgetitem = self.treeWidget.headerItem()
         ___qtreewidgetitem.setText(4, QCoreApplication.translate("MainWindow", u"Teacher", None));
         ___qtreewidgetitem.setText(3, QCoreApplication.translate("MainWindow", u"Block", None));
@@ -479,14 +506,15 @@ class Ui_MainWindow(object):
         self.label.setText(QCoreApplication.translate("MainWindow", u"Schedule settings", None))
         self.periodStartLabel.setText(QCoreApplication.translate("MainWindow", u"Period start", None))
         self.periodEndLabel.setText(QCoreApplication.translate("MainWindow", u"Period end", None))
+        self.blockTimeMinutesLabel.setText(QCoreApplication.translate("MainWindow", u"Block time (minutes)", None))
         self.timeBetweenBlockLabel.setText(QCoreApplication.translate("MainWindow", u"Time between blocks (minutes)", None))
         self.lunchStartLabel.setText(QCoreApplication.translate("MainWindow", u"Lunch start block", None))
+        self.lunchTimeLabel.setText(QCoreApplication.translate("MainWindow", u"Lunch time (Minutes)", None))
         self.dayStartLabel.setText(QCoreApplication.translate("MainWindow", u"Day start", None))
         self.dayStartTimeEdit.setDisplayFormat(QCoreApplication.translate("MainWindow", u"h:mm", None))
-        self.filenameLabel.setText(QCoreApplication.translate("MainWindow", u"Filename", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Export settings", None))
+        self.filenameLabel.setText(QCoreApplication.translate("MainWindow", u"Calendar filename", None))
         self.filenameLineEdit.setText(QCoreApplication.translate("MainWindow", u"schedule.ics", None))
-        self.lunchTimeLabel.setText(QCoreApplication.translate("MainWindow", u"Lunch time (Minutes)", None))
-        self.blockTimeMinutesLabel.setText(QCoreApplication.translate("MainWindow", u"Block time (minutes)", None))
         self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
     # retranslateUi
 
