@@ -1,9 +1,10 @@
 # This Python file uses the following encoding: utf-8
 import sys
-from schedule import SchClass, checkTime, Configs
+from schedule import SchClass, checkTime, Configs, checkDiff
 from PySide6.QtCore import Qt, Slot
-from PySide6.QtWidgets import QApplication, QMainWindow, QTreeWidgetItem, QMessageBox, QTableWidgetItem, QHeaderView
+from PySide6.QtWidgets import QApplication, QMainWindow, QTreeWidgetItem, QMessageBox, QTableWidgetItem
 from PySide6.QtGui import QColor
+import math
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
@@ -37,6 +38,13 @@ class MainWindow(QMainWindow):
         self.ui.tableWidget.cellClicked.connect(self.onActiveTableItemChange)
         self.ui.colorComboBox.activated.connect(self.onColorChange)
 
+        self.ui.blockTimeMinutesSpinBox.valueChanged.connect(self.onBlockTimeChange)
+        self.ui.timeBetweenBlockSpinBox.valueChanged.connect(self.onBreakTimeChange)
+        self.ui.lunchStartSpinBox.valueChanged.connect(self.onLunchStartChange)
+        self.ui.lunchTimeSpinBox.valueChanged.connect(self.onLunchTimeChange)
+        self.ui.filenameLineEdit.textEdited.connect(self.onFilenameChange)
+        self.ui.dayStartTimeEdit.timeChanged.connect(self.onDayStartChange)
+
     def redraw(self):
         self.ui.treeWidget.clear()
         self.ui.tableWidget.clearContents()
@@ -68,12 +76,14 @@ class MainWindow(QMainWindow):
                 self.ui.tableWidget.setItem(block-1,day-1,tb)
             check += 1
         cBlock = 1
+        cTime = (self.configs.dStart[0],self.configs.dStart[1])
         for block in range(0,12):
             nTabItem = QTableWidgetItem()
             if block+1 == self.configs.lStart:
                 nTabItem.setText("Lunch")
+                cTime = checkDiff(*(cTime),self.configs.lTime)
             else:
-                nTabItem.setText(str(cBlock))
+                nTabItem.setText(f"{cBlock}-(00:00-00:00)")
                 cBlock += 1
             self.ui.tableWidget.setVerticalHeaderItem(block,nTabItem)
         
@@ -103,7 +113,7 @@ class MainWindow(QMainWindow):
     def onGenClicked(self):
         try :
             process(self.items, self.configs)
-            QMessageBox.information(self, "Generated", "Your calendar file "+ self.ui.filenameLineEdit.text() + " has been generated successfully")
+            QMessageBox.information(self, "Generated", "Your calendar file "+ self.configs.filename + " has been generated successfully")
         except : 
             QMessageBox.warning(self,"Error","Couldn't generate .ics file, please check your configurations")
 
@@ -144,6 +154,26 @@ class MainWindow(QMainWindow):
     def onColorChange(self,color):
         self.items[self.activeClass].color = color
         self.redraw()
+
+    def onBlockTimeChange(self,time):
+        self.configs.bTime = time
+        self.redraw()
+    def onBreakTimeChange(self,time):
+        self.configs.breakT = time
+        self.redraw()
+    def onLunchStartChange(self,block):
+        self.configs.lStart = block
+        self.redraw()
+    def onLunchTimeChange(self,time):
+        self.configs.lTime(time)
+        self.redraw()
+    def onFilenameChange(self,filename):
+        self.configs.filename = filename
+        self.redraw()
+    def onDayStartChange(self,start):
+        self.configs.dStart[0] = start.hour()
+        self.configs.dStart[1] = start.minute()
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

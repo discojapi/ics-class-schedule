@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,1">
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
@@ -430,6 +430,16 @@
         </item>
         <item row="0" column="1">
          <widget class="QDateEdit" name="periodStartDateEdit">
+          <property name="dateTime">
+           <datetime>
+            <hour>0</hour>
+            <minute>0</minute>
+            <second>0</second>
+            <year>2025</year>
+            <month>1</month>
+            <day>2</day>
+           </datetime>
+          </property>
           <property name="calendarPopup">
            <bool>true</bool>
           </property>
@@ -444,6 +454,16 @@
         </item>
         <item row="1" column="1">
          <widget class="QDateEdit" name="periodEndDateEdit">
+          <property name="dateTime">
+           <datetime>
+            <hour>0</hour>
+            <minute>0</minute>
+            <second>0</second>
+            <year>2026</year>
+            <month>1</month>
+            <day>1</day>
+           </datetime>
+          </property>
           <property name="calendarPopup">
            <bool>true</bool>
           </property>
@@ -481,13 +501,30 @@
          <widget class="QTimeEdit" name="dayStartTimeEdit">
           <property name="dateTime">
            <datetime>
-            <hour>8</hour>
-            <minute>15</minute>
-            <second>0</second>
+            <hour>9</hour>
+            <minute>59</minute>
+            <second>59</second>
             <year>2000</year>
             <month>1</month>
             <day>1</day>
            </datetime>
+          </property>
+          <property name="maximumTime">
+           <time>
+            <hour>12</hour>
+            <minute>0</minute>
+            <second>0</second>
+           </time>
+          </property>
+          <property name="minimumTime">
+           <time>
+            <hour>1</hour>
+            <minute>0</minute>
+            <second>0</second>
+           </time>
+          </property>
+          <property name="displayFormat">
+           <string>h:mm</string>
           </property>
           <property name="calendarPopup">
            <bool>false</bool>

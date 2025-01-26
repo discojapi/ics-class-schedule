@@ -274,6 +274,7 @@ class Ui_MainWindow(object):
 
         self.periodStartDateEdit = QDateEdit(self.centralwidget)
         self.periodStartDateEdit.setObjectName(u"periodStartDateEdit")
+        self.periodStartDateEdit.setDateTime(QDateTime(QDate(2025, 1, 2), QTime(0, 0, 0)))
         self.periodStartDateEdit.setCalendarPopup(True)
 
         self.formLayout.setWidget(0, QFormLayout.FieldRole, self.periodStartDateEdit)
@@ -285,6 +286,7 @@ class Ui_MainWindow(object):
 
         self.periodEndDateEdit = QDateEdit(self.centralwidget)
         self.periodEndDateEdit.setObjectName(u"periodEndDateEdit")
+        self.periodEndDateEdit.setDateTime(QDateTime(QDate(2026, 1, 1), QTime(0, 0, 0)))
         self.periodEndDateEdit.setCalendarPopup(True)
 
         self.formLayout.setWidget(1, QFormLayout.FieldRole, self.periodEndDateEdit)
@@ -312,7 +314,9 @@ class Ui_MainWindow(object):
 
         self.dayStartTimeEdit = QTimeEdit(self.centralwidget)
         self.dayStartTimeEdit.setObjectName(u"dayStartTimeEdit")
-        self.dayStartTimeEdit.setDateTime(QDateTime(QDate(2000, 1, 1), QTime(8, 15, 0)))
+        self.dayStartTimeEdit.setDateTime(QDateTime(QDate(2000, 1, 1), QTime(9, 59, 59)))
+        self.dayStartTimeEdit.setMaximumTime(QTime(12, 0, 0))
+        self.dayStartTimeEdit.setMinimumTime(QTime(1, 0, 0))
         self.dayStartTimeEdit.setCalendarPopup(False)
         self.dayStartTimeEdit.setTimeSpec(Qt.TimeSpec.LocalTime)
 
@@ -371,6 +375,8 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addLayout(self.verticalLayout)
 
+        self.horizontalLayout_2.setStretch(0, 2)
+        self.horizontalLayout_2.setStretch(1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -457,6 +463,7 @@ class Ui_MainWindow(object):
         self.timeBetweenBlockLabel.setText(QCoreApplication.translate("MainWindow", u"Time between blocks (minutes)", None))
         self.lunchStartLabel.setText(QCoreApplication.translate("MainWindow", u"Lunch start block", None))
         self.dayStartLabel.setText(QCoreApplication.translate("MainWindow", u"Day start", None))
+        self.dayStartTimeEdit.setDisplayFormat(QCoreApplication.translate("MainWindow", u"h:mm", None))
         self.filenameLabel.setText(QCoreApplication.translate("MainWindow", u"Filename", None))
         self.filenameLineEdit.setText(QCoreApplication.translate("MainWindow", u"schedule.ics", None))
         self.lunchTimeLabel.setText(QCoreApplication.translate("MainWindow", u"Lunch time (Minutes)", None))
