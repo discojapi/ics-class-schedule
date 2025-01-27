@@ -174,11 +174,11 @@ class MainWindow(QMainWindow):
     def onGenClicked(self):
         newFile = QFileDialog.getSaveFileName(self, ("Export Schedule"),"schedule.ics",("iCalendar file (*.ics)"))
         if newFile != ('', ''):
-            try :
+            #try :
                 process(self.items, self.configs, newFile[0])
                 QMessageBox.information(self, "Generated", "Your calendar file "+ newFile[0] + " has been generated successfully")
-            except : 
-                QMessageBox.warning(self,"Error","Couldn't generate .ics file, please check your configurations")
+            #except : 
+            #    QMessageBox.warning(self,"Error","Couldn't generate .ics file, please check your configurations")
     def onCloneClicked(self):
         clone = self.items[self.activeClass]
         self.items.append(SchClass(clone.name, clone.day, clone.block, clone.teacher, clone.notes, clone.classroom, clone.color))

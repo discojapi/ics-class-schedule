@@ -1,16 +1,38 @@
-import schedule
-# This Python script processes the schedule setup made in the UI, 
+from schedule import Configs, SchClass, checkZero, checkBlock, checkTime
+# This Python script processes the schedule setup made in the UI using iCalendar standard, 
 # hence, all the information must enter at once, this includes tuple lists, 
 # class layout, and others.
 
-def process(items, configs : schedule.Configs, filename : str):
+# VEVENT Layout
+'''''
+    BEGIN:VEVENT
+    DTSTART;TZID=America/Santiago:20250127T181500
+    DTEND;TZID=America/Santiago:20250127T191500
+    RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20250507T035959Z;BYDAY=MO
+    DTSTAMP:20250126T202350Z
+    UID:74m35irtvptsagbqelq5k8gjsh@google.com
+    CREATED:20250126T201815Z
+    DESCRIPTION:I HAVEN'T ANYTHING TO HIDE
+    LAST-MODIFIED:20250126T202326Z
+    LOCATION:CLASSROOM 4
+    SEQUENCE:1
+    STATUS:CONFIRMED
+    SUMMARY:CLASS 2
+    TRANSP:OPAQUE
+    END:VEVENT
+'''''
+
+def process(items : list, configs : Configs, filename : str):
     file = open(filename,"w+",encoding="utf-8")
     def writeline(text:str):
         file.write(text + "\n")
     file.write("BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\n")
     for a in items:
-        file.write("BEGIN:VEVENT" + "\n")
-        file.write("END:VEVENT" + "\n")
+        writeline("BEGIN:VEVENT")
+        writeline(f"DTSTART;TZID=America/Santiago:{configs.pStart[0]}{checkZero(configs.pStart[1])}{checkZero(configs.pStart[2]+a.day-1)}T{checkZero(checkBlock(a.block, configs)[0])}{checkZero(checkBlock(a.block, configs)[1])}00")
+        writeline(f"DTEND;TZID=America/Santiago:{configs.pStart[0]}{checkZero(configs.pStart[1])}{checkZero(configs.pStart[2]+a.day-1)}T{checkZero(checkBlock(a.block, configs, False)[0])}{checkZero(checkBlock(a.block, configs, False)[1])}00")
+        writeline(f"RRULE:FREQ=WEEKLY;WKST={checkTime(a,2)};UNTIL=")
+        writeline("END:VEVENT")
     file.write("END:VCALENDAR")
     file.close()
     return 0
@@ -52,7 +74,7 @@ def process(items, configs : schedule.Configs, filename : str):
     ####
 '''
  
-def save(items, configs : schedule.Configs, file : str):
+def save(items, configs : Configs, file : str):
     write = open(file,"w",encoding="utf-8")
     def writeline(text:str):
         write.write(text + "\n")
@@ -88,19 +110,19 @@ def load(items, file):
     for a in read:
         lect.append(a.strip())
     read.close()
-    configs = schedule.Configs()
+    configs = Configs()
     checkClass = False
     if lect[0] != "###" or lect[len(lect)-1]!= "####":
         return(0)
     items.clear()
-    newClass = schedule.SchClass()
+    newClass = SchClass()
     pStart = []
     pEnd = []
     for b in lect:
         if b == "---" or b == "####":
             if checkClass:
                 items.append(newClass)
-                newClass = schedule.SchClass()
+                newClass = SchClass()
             checkClass = True
         else:
             cur = b.split(":")
@@ -149,6 +171,6 @@ def load(items, file):
                     case "SCHEDULE":
                         configs.schedule = cur[1]
     if len(items) == 0:
-        items.append(schedule.SchClass())
+        items.append(SchClass())
     return(True, configs)
 

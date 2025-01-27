@@ -23,10 +23,10 @@ class Configs:
         self.dStart = dStart
         self.schedule = schedule
 
-def checkTime(classTime, strday):
+def checkTime(classTime, dowtype):
     day = classTime.day
     block = classTime.block
-    if strday == True:
+    if dowtype == 1:
         match classTime.day:
             case 1:
                 day = "Monday"
@@ -42,6 +42,23 @@ def checkTime(classTime, strday):
                 day = "Saturday"
             case 7:
                 day = "Sunday"
+    elif dowtype == 2:
+        match classTime.day:
+            case 1:
+                day = "MO"
+            case 2:
+                day = "TU"
+            case 3:
+                day = "WE"
+            case 4:
+                day = "TH"
+            case 5:
+                day = "FR"
+            case 6:
+                day = "SA"
+            case 7:
+                day = "SU"
+        
     return (day,block)
 
 def checkDiff(hour, minute, diff):
@@ -51,3 +68,15 @@ def checkZero(i):
     if i < 10:
         return "0" + str(i)
     return i
+
+def checkBlock(block : int, configs : Configs, start = True):
+    check = 0
+    if block >= configs.lStart:
+        check += configs.lTime - configs.breakT
+    check += configs.blockTime*(block-1) + configs.breakT*(block-1)
+    if start:
+        return checkDiff(configs.dStart[0], configs.dStart[1], check)
+    else:
+        return checkDiff(configs.dStart[0], configs.dStart[1], check + configs.blockTime)
+     
+    
