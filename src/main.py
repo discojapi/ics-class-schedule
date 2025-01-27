@@ -1,6 +1,6 @@
 # This Python file uses the following encoding: utf-8
 import sys
-from schedule import SchClass, checkTime, Configs, checkDiff
+from schedule import SchClass, checkTime, Configs, checkDiff, checkZero
 from PySide6.QtCore import Qt, Slot
 from PySide6.QtWidgets import QApplication, QMainWindow, QTreeWidgetItem, QMessageBox, QTableWidgetItem, QFileDialog
 from PySide6.QtGui import QColor
@@ -46,7 +46,7 @@ class MainWindow(QMainWindow):
         self.ui.timeBetweenBlockSpinBox.valueChanged.connect(self.onBreakTimeChange)
         self.ui.lunchStartSpinBox.valueChanged.connect(self.onLunchStartChange)
         self.ui.lunchTimeSpinBox.valueChanged.connect(self.onLunchTimeChange)
-        self.ui.filenameLineEdit.textEdited.connect(self.onFilenameChange)
+        self.ui.scheduleLineEdit.textEdited.connect(self.onScheduleChange)
         self.ui.dayStartTimeEdit.timeChanged.connect(self.onDayStartChange)
 
     def redraw(self):
@@ -63,9 +63,9 @@ class MainWindow(QMainWindow):
                 nTabItem.setText("Lunch")
                 cTime = checkDiff(*(cTime),self.configs.lTime)
             else:
-                nLabel = f"{cBlock}-({cTime[0]}:{cTime[1]}-"
-                cTime = checkDiff(*(cTime),self.configs.bTime)
-                nLabel += f"{cTime[0]}:{cTime[1]})"
+                nLabel = f"{cBlock}-({cTime[0]}:{checkZero(cTime[1])}-"
+                cTime = checkDiff(*(cTime),self.configs.blockTime)
+                nLabel += f"{cTime[0]}:{checkZero(cTime[1])})"
                 nTabItem.setText(nLabel)
                 headers.append(nLabel)
                 cBlock += 1
@@ -133,20 +133,22 @@ class MainWindow(QMainWindow):
     def onSaveFile(self):
         newFile = QFileDialog.getSaveFileName(self, ("Save Schedule"),"schedule.txt",("Text file (*.txt)"))
         if newFile != ('', ''):
-            try:
+            #try:
                 save(self.items, self.configs, newFile[0])
-            except:
-                QMessageBox.warning(self,"Error","Couldn't save your file, please check your configurations")
+            #except:
+            #    QMessageBox.warning(self,"Error","Couldn't save your file, please check your configurations")
 
     def onLoadFile(self):
         fileName = QFileDialog.getOpenFileName(self, ("Open Schedule"), "schedule.txt", ("Text file (*.txt)"))
         if fileName != ('', ''):
-            try:
+            #try:
                 self.activeClass = 0
-                load(self.items, self.configs, fileName[0])
-                self.redraw()
-            except:
-                QMessageBox.warning(self,"Error","Couldn't load your file")
+                if load(self.items, self.configs, fileName[0]) == 0:
+                    self.redraw()
+                else:
+                    QMessageBox.warning(self,"Error","Incorrect file")
+            #except:
+                #QMessageBox.warning(self,"Error","Couldn't load your file")
 
     def onNewSchedule(self):
         self.items.clear()
@@ -155,11 +157,13 @@ class MainWindow(QMainWindow):
         self.redraw()
 
     def onGenClicked(self):
-        try :
-            process(self.items, self.configs)
-            QMessageBox.information(self, "Generated", "Your calendar file "+ self.configs.filename + " has been generated successfully")
-        except : 
-            QMessageBox.warning(self,"Error","Couldn't generate .ics file, please check your configurations")
+        newFile = QFileDialog.getSaveFileName(self, ("Export Schedule"),"schedule.ics",("iCalendar file (*.ics)"))
+        if newFile != ('', ''):
+            try :
+                process(self.items, self.configs, newFile[0])
+                QMessageBox.information(self, "Generated", "Your calendar file "+ newFile[0] + " has been generated successfully")
+            except : 
+                QMessageBox.warning(self,"Error","Couldn't generate .ics file, please check your configurations")
     def onCloneClicked(self):
         clone = self.items[self.activeClass]
         self.items.append(SchClass(clone.name, clone.day, clone.block, clone.teacher, clone.notes, clone.classroom, clone.color))
@@ -205,7 +209,7 @@ class MainWindow(QMainWindow):
         self.redraw()
 
     def onBlockTimeChange(self,time):
-        self.configs.bTime = time
+        self.configs.blockTime = time
         self.redraw()
     def onBreakTimeChange(self,time):
         self.configs.breakT = time
@@ -216,8 +220,8 @@ class MainWindow(QMainWindow):
     def onLunchTimeChange(self,time):
         self.configs.lTime=time
         self.redraw()
-    def onFilenameChange(self,filename):
-        self.configs.filename = filename
+    def onScheduleChange(self,schedule):
+        self.configs.schedule = schedule
         self.redraw()
     def onDayStartChange(self,start):
         self.configs.dStart[0] = start.hour()

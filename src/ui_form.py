@@ -123,8 +123,9 @@ class Ui_MainWindow(object):
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setFrameShape(QFrame.Shape.StyledPanel)
         self.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        self.tableWidget.setDragEnabled(True)
-        self.tableWidget.setDragDropMode(QAbstractItemView.DragDropMode.InternalMove)
+        self.tableWidget.setDragEnabled(False)
+        self.tableWidget.setDragDropOverwriteMode(False)
+        self.tableWidget.setDragDropMode(QAbstractItemView.DragDropMode.NoDragDrop)
         self.tableWidget.setDefaultDropAction(Qt.DropAction.ActionMask)
         self.tableWidget.setAlternatingRowColors(True)
         self.tableWidget.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
@@ -280,7 +281,7 @@ class Ui_MainWindow(object):
 
         self.periodStartDateEdit = QDateEdit(self.centralwidget)
         self.periodStartDateEdit.setObjectName(u"periodStartDateEdit")
-        self.periodStartDateEdit.setDateTime(QDateTime(QDate(2025, 1, 2), QTime(6, 0, 0)))
+        self.periodStartDateEdit.setDateTime(QDateTime(QDate(2025, 1, 2), QTime(9, 0, 0)))
         self.periodStartDateEdit.setCalendarPopup(True)
 
         self.formLayout.setWidget(0, QFormLayout.FieldRole, self.periodStartDateEdit)
@@ -292,7 +293,7 @@ class Ui_MainWindow(object):
 
         self.periodEndDateEdit = QDateEdit(self.centralwidget)
         self.periodEndDateEdit.setObjectName(u"periodEndDateEdit")
-        self.periodEndDateEdit.setDateTime(QDateTime(QDate(2026, 1, 1), QTime(6, 0, 0)))
+        self.periodEndDateEdit.setDateTime(QDateTime(QDate(2026, 1, 1), QTime(9, 0, 0)))
         self.periodEndDateEdit.setCalendarPopup(True)
 
         self.formLayout.setWidget(1, QFormLayout.FieldRole, self.periodEndDateEdit)
@@ -389,10 +390,10 @@ class Ui_MainWindow(object):
 
         self.formLayout_3.setWidget(0, QFormLayout.LabelRole, self.filenameLabel)
 
-        self.filenameLineEdit = QLineEdit(self.centralwidget)
-        self.filenameLineEdit.setObjectName(u"filenameLineEdit")
+        self.scheduleLineEdit = QLineEdit(self.centralwidget)
+        self.scheduleLineEdit.setObjectName(u"scheduleLineEdit")
 
-        self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.filenameLineEdit)
+        self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.scheduleLineEdit)
 
 
         self.verticalLayout.addLayout(self.formLayout_3)
@@ -441,10 +442,16 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(tooltip)
         self.actionsave.setText(QCoreApplication.translate("MainWindow", u"Save as", None))
 #if QT_CONFIG(tooltip)
-        self.actionsave.setToolTip(QCoreApplication.translate("MainWindow", u"Save as a .json file", None))
+        self.actionsave.setToolTip(QCoreApplication.translate("MainWindow", u"Save to a .txt file", None))
 #endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(shortcut)
+        self.actionsave.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+S", None))
+#endif // QT_CONFIG(shortcut)
         self.actionLoad.setText(QCoreApplication.translate("MainWindow", u"Load", None))
         self.actionNew.setText(QCoreApplication.translate("MainWindow", u"New", None))
+#if QT_CONFIG(shortcut)
+        self.actionNew.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+N", None))
+#endif // QT_CONFIG(shortcut)
         self.actionabout.setText(QCoreApplication.translate("MainWindow", u"about", None))
         self.action_gen.setText(QCoreApplication.translate("MainWindow", u"Generate .ics file", None))
         self.actionExport.setText(QCoreApplication.translate("MainWindow", u"Export to png", None))
@@ -498,8 +505,8 @@ class Ui_MainWindow(object):
         self.colorComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Brown", None))
         self.colorComboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"Blue", None))
         self.colorComboBox.setItemText(4, QCoreApplication.translate("MainWindow", u"Green", None))
-        self.colorComboBox.setItemText(5, QCoreApplication.translate("MainWindow", u"Gray", None))
-        self.colorComboBox.setItemText(6, QCoreApplication.translate("MainWindow", u"Purple", None))
+        self.colorComboBox.setItemText(5, QCoreApplication.translate("MainWindow", u"Purple", None))
+        self.colorComboBox.setItemText(6, QCoreApplication.translate("MainWindow", u"Gray", None))
         self.colorComboBox.setItemText(7, QCoreApplication.translate("MainWindow", u"Orange", None))
         self.colorComboBox.setItemText(8, QCoreApplication.translate("MainWindow", u"Pink", None))
 
@@ -513,8 +520,8 @@ class Ui_MainWindow(object):
         self.dayStartLabel.setText(QCoreApplication.translate("MainWindow", u"Day start", None))
         self.dayStartTimeEdit.setDisplayFormat(QCoreApplication.translate("MainWindow", u"h:mm", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Export settings", None))
-        self.filenameLabel.setText(QCoreApplication.translate("MainWindow", u"Calendar filename", None))
-        self.filenameLineEdit.setText(QCoreApplication.translate("MainWindow", u"schedule.ics", None))
+        self.filenameLabel.setText(QCoreApplication.translate("MainWindow", u"Calendar name", None))
+        self.scheduleLineEdit.setText(QCoreApplication.translate("MainWindow", u"Schedule", None))
         self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
     # retranslateUi
 

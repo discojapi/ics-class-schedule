@@ -73,10 +73,13 @@
          <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
         </property>
         <property name="dragEnabled">
-         <bool>true</bool>
+         <bool>false</bool>
+        </property>
+        <property name="dragDropOverwriteMode">
+         <bool>false</bool>
         </property>
         <property name="dragDropMode">
-         <enum>QAbstractItemView::DragDropMode::InternalMove</enum>
+         <enum>QAbstractItemView::DragDropMode::NoDragDrop</enum>
         </property>
         <property name="defaultDropAction">
          <enum>Qt::DropAction::ActionMask</enum>
@@ -370,12 +373,12 @@
           </item>
           <item>
            <property name="text">
-            <string>Gray</string>
+            <string>Purple</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Purple</string>
+            <string>Gray</string>
            </property>
           </item>
           <item>
@@ -425,7 +428,7 @@
          <widget class="QDateEdit" name="periodStartDateEdit">
           <property name="dateTime">
            <datetime>
-            <hour>6</hour>
+            <hour>9</hour>
             <minute>0</minute>
             <second>0</second>
             <year>2025</year>
@@ -449,7 +452,7 @@
          <widget class="QDateEdit" name="periodEndDateEdit">
           <property name="dateTime">
            <datetime>
-            <hour>6</hour>
+            <hour>9</hour>
             <minute>0</minute>
             <second>0</second>
             <year>2026</year>
@@ -602,14 +605,14 @@
         <item row="0" column="0">
          <widget class="QLabel" name="filenameLabel">
           <property name="text">
-           <string>Calendar filename</string>
+           <string>Calendar name</string>
           </property>
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="filenameLineEdit">
+         <widget class="QLineEdit" name="scheduleLineEdit">
           <property name="text">
-           <string>schedule.ics</string>
+           <string>Schedule</string>
           </property>
          </widget>
         </item>
@@ -678,7 +681,10 @@
     <string>Save as</string>
    </property>
    <property name="toolTip">
-    <string>Save as a .json file</string>
+    <string>Save to a .txt file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -701,6 +707,9 @@
    </property>
    <property name="text">
     <string>New</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>

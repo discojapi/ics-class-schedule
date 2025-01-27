@@ -13,15 +13,15 @@ class SchClass:
     
 class Configs:
     # p= Period, b= Block, l= Lunch, d= Day ; dStart[h,m]
-    def __init__(self, pStart=0, pEnd=0, bTime=70, breakT=15, lStart=5, lTime=60, dStart=[8,15], filename="schedule.ics"):
+    def __init__(self, pStart=0, pEnd=0, blockTime=70, breakT=15, lStart=5, lTime=60, dStart=[8,15], schedule="Schedule"):
         self.pStart = pStart
         self.pEnd = pEnd
-        self.bTime = bTime
+        self.blockTime = blockTime
         self.breakT = breakT
         self.lStart = lStart
         self.lTime = lTime
         self.dStart = dStart
-        self.filename = filename
+        self.schedule = schedule
 
 def checkTime(classTime, strday):
     day = classTime.day
@@ -30,26 +30,24 @@ def checkTime(classTime, strday):
         match classTime.day:
             case 1:
                 day = "Monday"
-                dd = True
             case 2:
                 day = "Tuesday"
-                dd = True
             case 3:
                 day = "Wednesday"
-                dd = True
             case 4:
                 day = "Thursday"
-                dd = True
             case 5:
                 day = "Friday"
-                dd = True
             case 6:
                 day = "Saturday"
-                dd = True
             case 7:
                 day = "Sunday"
-                dd = True
     return (day,block)
 
 def checkDiff(hour, minute, diff):
     return (hour + math.trunc((minute+diff)/60), minute + (diff-60*math.trunc((minute+diff)/60)))
+
+def checkZero(i):
+    if i < 10:
+        return "0" + str(i)
+    return i
