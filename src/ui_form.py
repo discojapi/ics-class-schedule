@@ -73,6 +73,10 @@ class Ui_MainWindow(object):
         icon8 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditCopy))
         self.actionDuplicate_class.setIcon(icon8)
         self.actionDuplicate_class.setMenuRole(QAction.MenuRole.NoRole)
+        self.actionAboutQT = QAction(MainWindow)
+        self.actionAboutQT.setObjectName(u"actionAboutQT")
+        self.actionAboutQT.setIcon(icon5)
+        self.actionAboutQT.setMenuRole(QAction.MenuRole.NoRole)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.horizontalLayout_2 = QHBoxLayout(self.centralwidget)
@@ -135,10 +139,11 @@ class Ui_MainWindow(object):
         self.tableWidget.setRowCount(11)
         self.tableWidget.horizontalHeader().setVisible(True)
         self.tableWidget.horizontalHeader().setCascadingSectionResizes(False)
+        self.tableWidget.horizontalHeader().setDefaultSectionSize(119)
         self.tableWidget.horizontalHeader().setHighlightSections(True)
         self.tableWidget.horizontalHeader().setProperty(u"showSortIndicator", False)
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
-        self.tableWidget.verticalHeader().setDefaultSectionSize(33)
+        self.tableWidget.verticalHeader().setDefaultSectionSize(38)
         self.tableWidget.verticalHeader().setProperty(u"showSortIndicator", False)
         self.tableWidget.verticalHeader().setStretchLastSection(True)
 
@@ -281,7 +286,7 @@ class Ui_MainWindow(object):
 
         self.periodStartDateEdit = QDateEdit(self.centralwidget)
         self.periodStartDateEdit.setObjectName(u"periodStartDateEdit")
-        self.periodStartDateEdit.setDateTime(QDateTime(QDate(2025, 1, 2), QTime(9, 0, 0)))
+        self.periodStartDateEdit.setDateTime(QDateTime(QDate(2025, 1, 2), QTime(0, 0, 0)))
         self.periodStartDateEdit.setCalendarPopup(True)
 
         self.formLayout.setWidget(0, QFormLayout.FieldRole, self.periodStartDateEdit)
@@ -293,7 +298,7 @@ class Ui_MainWindow(object):
 
         self.periodEndDateEdit = QDateEdit(self.centralwidget)
         self.periodEndDateEdit.setObjectName(u"periodEndDateEdit")
-        self.periodEndDateEdit.setDateTime(QDateTime(QDate(2026, 1, 1), QTime(9, 0, 0)))
+        self.periodEndDateEdit.setDateTime(QDateTime(QDate(2026, 1, 1), QTime(0, 0, 0)))
         self.periodEndDateEdit.setCalendarPopup(True)
 
         self.formLayout.setWidget(1, QFormLayout.FieldRole, self.periodEndDateEdit)
@@ -353,7 +358,7 @@ class Ui_MainWindow(object):
 
         self.dayStartTimeEdit = QTimeEdit(self.centralwidget)
         self.dayStartTimeEdit.setObjectName(u"dayStartTimeEdit")
-        self.dayStartTimeEdit.setDateTime(QDateTime(QDate(2000, 1, 1), QTime(9, 0, 0)))
+        self.dayStartTimeEdit.setDateTime(QDateTime(QDate(2000, 1, 1), QTime(8, 15, 0)))
         self.dayStartTimeEdit.setMaximumTime(QTime(23, 59, 59))
         self.dayStartTimeEdit.setMinimumTime(QTime(0, 0, 0))
         self.dayStartTimeEdit.setCalendarPopup(False)
@@ -408,6 +413,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.toolBar = QToolBar(MainWindow)
         self.toolBar.setObjectName(u"toolBar")
+        self.toolBar.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonFollowStyle)
         MainWindow.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.toolBar)
 
         self.toolBar.addAction(self.actionNew)
@@ -420,7 +426,9 @@ class Ui_MainWindow(object):
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.action_gen)
         self.toolBar.addAction(self.actionExport)
+        self.toolBar.addSeparator()
         self.toolBar.addAction(self.actionabout)
+        self.toolBar.addAction(self.actionAboutQT)
 
         self.retranslateUi(MainWindow)
 
@@ -452,12 +460,16 @@ class Ui_MainWindow(object):
 #if QT_CONFIG(shortcut)
         self.actionNew.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+N", None))
 #endif // QT_CONFIG(shortcut)
-        self.actionabout.setText(QCoreApplication.translate("MainWindow", u"about", None))
+        self.actionabout.setText(QCoreApplication.translate("MainWindow", u"About", None))
         self.action_gen.setText(QCoreApplication.translate("MainWindow", u"Generate .ics file", None))
-        self.actionExport.setText(QCoreApplication.translate("MainWindow", u"Export to png", None))
+        self.actionExport.setText(QCoreApplication.translate("MainWindow", u"Export to image", None))
         self.actionDuplicate_class.setText(QCoreApplication.translate("MainWindow", u"Duplicate class", None))
 #if QT_CONFIG(tooltip)
         self.actionDuplicate_class.setToolTip(QCoreApplication.translate("MainWindow", u"Clone selected event", None))
+#endif // QT_CONFIG(tooltip)
+        self.actionAboutQT.setText(QCoreApplication.translate("MainWindow", u"AboutQT", None))
+#if QT_CONFIG(tooltip)
+        self.actionAboutQT.setToolTip(QCoreApplication.translate("MainWindow", u"Show info about QT", None))
 #endif // QT_CONFIG(tooltip)
         ___qtreewidgetitem = self.treeWidget.headerItem()
         ___qtreewidgetitem.setText(4, QCoreApplication.translate("MainWindow", u"Teacher", None));
@@ -512,7 +524,9 @@ class Ui_MainWindow(object):
 
         self.label.setText(QCoreApplication.translate("MainWindow", u"Schedule settings", None))
         self.periodStartLabel.setText(QCoreApplication.translate("MainWindow", u"Period start", None))
+        self.periodStartDateEdit.setDisplayFormat(QCoreApplication.translate("MainWindow", u"dd-MM-yyyy", None))
         self.periodEndLabel.setText(QCoreApplication.translate("MainWindow", u"Period end", None))
+        self.periodEndDateEdit.setDisplayFormat(QCoreApplication.translate("MainWindow", u"dd-MM-yyyy", None))
         self.blockTimeMinutesLabel.setText(QCoreApplication.translate("MainWindow", u"Block time (minutes)", None))
         self.timeBetweenBlockLabel.setText(QCoreApplication.translate("MainWindow", u"Time between blocks (minutes)", None))
         self.lunchStartLabel.setText(QCoreApplication.translate("MainWindow", u"Lunch start block", None))

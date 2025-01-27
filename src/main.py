@@ -1,7 +1,7 @@
 # This Python file uses the following encoding: utf-8
 import sys
 from schedule import SchClass, checkTime, Configs, checkDiff, checkZero
-from PySide6.QtCore import Qt, Slot
+from PySide6.QtCore import Qt, Slot, QDate
 from PySide6.QtWidgets import QApplication, QMainWindow, QTreeWidgetItem, QMessageBox, QTableWidgetItem, QFileDialog
 from PySide6.QtGui import QColor
 import math
@@ -28,6 +28,8 @@ class MainWindow(QMainWindow):
         self.ui.actionNew.triggered.connect(self.onNewSchedule)
         self.ui.actionsave.triggered.connect(self.onSaveFile)
         self.ui.actionLoad.triggered.connect(self.onLoadFile)
+        self.ui.actionabout.triggered.connect(self.onAbout)
+        self.ui.actionAboutQT.triggered.connect(self.onAboutQT)
         self.ui.actionAdd_class.triggered.connect(self.addClass)
         self.ui.actionDuplicate_class.triggered.connect(self.onCloneClicked)
         self.ui.actionRemove_class.triggered.connect(self.removeClass)
@@ -48,6 +50,8 @@ class MainWindow(QMainWindow):
         self.ui.lunchTimeSpinBox.valueChanged.connect(self.onLunchTimeChange)
         self.ui.scheduleLineEdit.textEdited.connect(self.onScheduleChange)
         self.ui.dayStartTimeEdit.timeChanged.connect(self.onDayStartChange)
+        self.ui.periodEndDateEdit.userDateChanged.connect(self.onPeriodEndChange)
+        self.ui.periodStartDateEdit.userDateChanged.connect(self.onPeriodStartChange)
 
     def redraw(self):
         self.ui.treeWidget.clear()
@@ -111,6 +115,15 @@ class MainWindow(QMainWindow):
         self.ui.spinBox.setValue(self.items[self.activeClass].block)
         self.ui.colorComboBox.setCurrentIndex(self.items[self.activeClass].color)
 
+        self.ui.blockTimeMinutesSpinBox.setValue(self.configs.blockTime)
+        self.ui.timeBetweenBlockSpinBox.setValue(self.configs.breakT)
+        self.ui.lunchStartSpinBox.setValue(self.configs.lStart)
+        self.ui.lunchTimeSpinBox.setValue(self.configs.lTime)
+
+        self.ui.scheduleLineEdit.setText(self.configs.schedule)
+        self.ui.periodStartDateEdit.setDate(QDate(*(self.configs.pStart)))
+        self.ui.periodEndDateEdit.setDate(QDate(*(self.configs.pEnd)))
+
     #Slots   
     @Slot(int)
     def onActiveItemChange(self,index):
@@ -133,22 +146,24 @@ class MainWindow(QMainWindow):
     def onSaveFile(self):
         newFile = QFileDialog.getSaveFileName(self, ("Save Schedule"),"schedule.txt",("Text file (*.txt)"))
         if newFile != ('', ''):
-            #try:
+            try:
                 save(self.items, self.configs, newFile[0])
-            #except:
-            #    QMessageBox.warning(self,"Error","Couldn't save your file, please check your configurations")
+            except:
+                QMessageBox.warning(self,"Error","Couldn't save your file, please check your configurations")
 
     def onLoadFile(self):
         fileName = QFileDialog.getOpenFileName(self, ("Open Schedule"), "schedule.txt", ("Text file (*.txt)"))
         if fileName != ('', ''):
-            #try:
+            try:
                 self.activeClass = 0
-                if load(self.items, self.configs, fileName[0]) == 0:
+                (correct, configs) = load(self.items, fileName[0])
+                if correct:
+                    self.configs = configs
                     self.redraw()
                 else:
                     QMessageBox.warning(self,"Error","Incorrect file")
-            #except:
-                #QMessageBox.warning(self,"Error","Couldn't load your file")
+            except:
+                QMessageBox.warning(self,"Error","Couldn't load your file")
 
     def onNewSchedule(self):
         self.items.clear()
@@ -226,7 +241,17 @@ class MainWindow(QMainWindow):
     def onDayStartChange(self,start):
         self.configs.dStart[0] = start.hour()
         self.configs.dStart[1] = start.minute()
-
+        self.redraw()
+    def onPeriodStartChange(self, date):
+        self.configs.pStart = (date.year(),date.month(),date.day())
+        self.redraw()
+    def onPeriodEndChange(self, date):
+        self.configs.pEnd = (date.year(),date.month(),date.day())
+        self.redraw()
+    def onAbout(self):
+        QMessageBox.about(self, "About", 'Class Schedule Generator\nBy Sebastián Saldias')
+    def onAboutQT(self):
+        QMessageBox.aboutQt(self)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

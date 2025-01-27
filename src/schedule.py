@@ -12,8 +12,8 @@ class SchClass:
         self.color = color
     
 class Configs:
-    # p= Period, b= Block, l= Lunch, d= Day ; dStart[h,m]
-    def __init__(self, pStart=0, pEnd=0, blockTime=70, breakT=15, lStart=5, lTime=60, dStart=[8,15], schedule="Schedule"):
+    # p= Period, b= Block, l= Lunch, d= Day ; dStart[h,m] ; pStart / pEnd = [yyyy, mm, dd]
+    def __init__(self, pStart=(2025,1,1), pEnd=(2026,1,1), blockTime=70, breakT=15, lStart=5, lTime=60, dStart=[8,15], schedule="Schedule"):
         self.pStart = pStart
         self.pEnd = pEnd
         self.blockTime = blockTime

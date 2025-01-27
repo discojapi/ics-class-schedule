@@ -20,13 +20,18 @@ def process(items, configs : schedule.Configs, filename : str):
 # The file must mantain the following structure
 '''
     ###
-    PSTART:
-    PEND:
+    PSTARTY:
+    PSTARTM:
+    PSTARTD:
+    PENDY:
+    PENDM:
+    PENDD:
     BLOCKTIME:
     BREAKTIME:
     LUNCHSTART:
     LUNCHTIME:
-    DAYSTART:
+    DAYSTARTH:
+    DAYSTARTM:
     SCHEDULE:
     --- (indicates class)
     CLASSNAME:
@@ -52,13 +57,18 @@ def save(items, configs : schedule.Configs, file : str):
     def writeline(text:str):
         write.write(text + "\n")
     writeline("###")
-    writeline("PSTART:"+str(configs.pStart))
-    writeline("PEND:"+str(configs.pEnd))
+    writeline("PSTARTY:"+str(configs.pStart[0]))
+    writeline("PSTARTM:"+str(configs.pStart[1]))
+    writeline("PSTARTD:"+str(configs.pStart[2]))
+    writeline("PENDY:"+str(configs.pEnd[0]))
+    writeline("PENDM:"+str(configs.pEnd[1]))
+    writeline("PENDD:"+str(configs.pEnd[2]))
     writeline("BLOCKTIME:"+str(configs.blockTime))
     writeline("BREAKTIME:"+str(configs.breakT))
     writeline("LUNCHSTART:"+str(configs.lStart))
     writeline("LUNCHTIME:"+str(configs.lTime))
-    writeline("DAYSTART:"+str(configs.dStart))
+    writeline("DAYSTARTH:"+str(configs.dStart[0]))
+    writeline("DAYSTARTM:"+str(configs.dStart[1]))
     writeline("SCHEDULE:"+configs.schedule)
     for item in items:
         writeline("---")
@@ -72,24 +82,26 @@ def save(items, configs : schedule.Configs, file : str):
     writeline("####")
     write.close()
 
-def load(items, configs : schedule.Configs, file):
+def load(items, file):
     read = open(file,"r",encoding="utf-8")
     lect = []
     for a in read:
         lect.append(a.strip())
     read.close()
+    configs = schedule.Configs()
     checkClass = False
     if lect[0] != "###" or lect[len(lect)-1]!= "####":
-        return(1)
+        return(0)
     items.clear()
-    configs = schedule.Configs()
     newClass = schedule.SchClass()
+    pStart = []
+    pEnd = []
     for b in lect:
         if b == "---" or b == "####":
-            checkClass = True
-            if newClass != schedule.SchClass():
+            if checkClass:
                 items.append(newClass)
                 newClass = schedule.SchClass()
+            checkClass = True
         else:
             cur = b.split(":")
             if checkClass:
@@ -110,10 +122,18 @@ def load(items, configs : schedule.Configs, file):
                         newClass.color = int(cur[1])
             else:
                 match cur[0]:
-                    case "PSTART":
-                        configs.pStart = int(cur[1])
-                    case "PEND":
-                        configs.pEnd = int(cur[1])
+                    case "PSTARTY":
+                        pStart.append(int(cur[1]))
+                    case "PSTARTM":
+                        pStart.append(int(cur[1]))
+                    case "PSTARTD":
+                        configs.pStart = (pStart[0],pStart[1],int(cur[1]))
+                    case "PENDY":
+                        pEnd.append(int(cur[1]))
+                    case "PENDM":
+                        pEnd.append(int(cur[1]))
+                    case "PENDD":
+                        configs.pEnd = (pEnd[0],pEnd[1],int(cur[1]))
                     case "BLOCKTIME":
                         configs.blockTime = int(cur[1])
                     case "BREAKTIME":
@@ -122,13 +142,13 @@ def load(items, configs : schedule.Configs, file):
                         configs.lStart = int(cur[1])
                     case "LUNCHTIME":
                         configs.lTime = int(cur[1])
-                    case "DAYSTART":
-                        pass
-                        #configs.dStart = int(cur[1])
+                    case "DAYSTARTH":
+                        configs.dStart[0] = int(cur[1])
+                    case "DAYSTARTM":
+                        configs.dStart[1] = int(cur[1])
                     case "SCHEDULE":
                         configs.schedule = cur[1]
-            
     if len(items) == 0:
         items.append(schedule.SchClass())
-    return(0)
+    return(True, configs)
 
