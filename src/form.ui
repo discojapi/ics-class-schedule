@@ -371,6 +371,11 @@
           </item>
           <item>
            <property name="text">
+            <string>Cyan</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
             <string>Green</string>
            </property>
           </item>
@@ -646,8 +651,9 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionNew"/>
-   <addaction name="actionsave"/>
    <addaction name="actionLoad"/>
+   <addaction name="actionSave"/>
+   <addaction name="actionsaveas"/>
    <addaction name="separator"/>
    <addaction name="actionAdd_class"/>
    <addaction name="actionDuplicate_class"/>
@@ -687,7 +693,7 @@
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
   </action>
-  <action name="actionsave">
+  <action name="actionsaveas">
    <property name="icon">
     <iconset theme="QIcon::ThemeIcon::DocumentSaveAs"/>
    </property>
@@ -785,6 +791,20 @@
    </property>
    <property name="toolTip">
     <string>Show info about QT</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::DocumentSave"/>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+   <property name="toolTip">
+    <string>Save schedule to a file</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>

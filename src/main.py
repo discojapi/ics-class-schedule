@@ -19,14 +19,16 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         #Setup
-        self.colorSet=["red","yellow","brown","blue","green","purple","gray","orange","pink"]
+        self.colorSet=["red","yellow","brown","blue","cyan","green","purple","gray","orange","pink"]
         self.activeClass = 0
+        self.openFile = ""
         self.items= []
         self.configs = Configs()
         self.onNewSchedule()
         #Connections
         self.ui.actionNew.triggered.connect(self.onNewSchedule)
-        self.ui.actionsave.triggered.connect(self.onSaveFile)
+        self.ui.actionsaveas.triggered.connect(self.onSaveAsFile)
+        self.ui.actionSave.triggered.connect(self.onSaveFile)
         self.ui.actionLoad.triggered.connect(self.onLoadFile)
         self.ui.actionabout.triggered.connect(self.onAbout)
         self.ui.actionAboutQT.triggered.connect(self.onAboutQT)
@@ -85,7 +87,7 @@ class MainWindow(QMainWindow):
                 it.setCheckState(0,Qt.CheckState.Unchecked)
             it.setText(1,item.name)
             it.setBackground(1,QColor(self.colorSet[item.color]))
-            if self.colorSet[item.color] == "pink" or self.colorSet[item.color] == "yellow" or self.colorSet[item.color] == "orange":
+            if self.colorSet[item.color] == "pink" or self.colorSet[item.color] == "yellow" or self.colorSet[item.color] == "orange" or self.colorSet[item.color] == "cyan":
                 it.setForeground(1,QColor("black"))
             it.setText(4,item.teacher)
             (day,block) = checkTime(item,True)
@@ -98,7 +100,7 @@ class MainWindow(QMainWindow):
             tb = QTableWidgetItem()
             tb.setText(item.name)
             tb.setBackground(QColor(self.colorSet[item.color]))
-            if self.colorSet[item.color] == "pink" or self.colorSet[item.color] == "yellow" or self.colorSet[item.color] == "orange":
+            if self.colorSet[item.color] == "pink" or self.colorSet[item.color] == "yellow" or self.colorSet[item.color] == "orange" or self.colorSet[item.color] == "cyan":
                 tb.setForeground(QColor("black"))
             if item.block >= self.configs.lStart :
                 self.ui.tableWidget.setItem(block,day-1,tb)
@@ -143,11 +145,20 @@ class MainWindow(QMainWindow):
                 return
             check += 1
 
-    def onSaveFile(self):
+    def onSaveAsFile(self):
         newFile = QFileDialog.getSaveFileName(self, ("Save Schedule"),"schedule.txt",("Text file (*.txt)"))
         if newFile != ('', ''):
+            self.openFile = newFile[0]
+            self.onSaveFile()
+
+    def onSaveFile(self):
+        if self.openFile == "":
+            self.onSaveAsFile()
+        else:
             try:
-                save(self.items, self.configs, newFile[0])
+                save(self.items, self.configs, self.openFile)
+                title = self.openFile.split("/")
+                self.setWindowTitle(f"Class Schedule Maker - {title[len(title)-1]}")
             except:
                 QMessageBox.warning(self,"Error","Couldn't save your file, please check your configurations")
 
@@ -155,21 +166,30 @@ class MainWindow(QMainWindow):
         fileName = QFileDialog.getOpenFileName(self, ("Open Schedule"), "schedule.txt", ("Text file (*.txt)"))
         if fileName != ('', ''):
             try:
+                self.openFile = fileName[0]
                 self.activeClass = 0
-                (correct, configs) = load(self.items, fileName[0])
+                (correct, configs) = load(self.items, self.openFile)
                 if correct:
                     self.configs = configs
                     self.redraw()
+                    title = self.openFile.split("/")
+                    self.setWindowTitle(f"Class Schedule Maker - {title[len(title)-1]}")
                 else:
                     QMessageBox.warning(self,"Error","Incorrect file")
             except:
                 QMessageBox.warning(self,"Error","Couldn't load your file")
 
     def onNewSchedule(self):
-        self.items.clear()
-        self.configs = Configs()
-        self.addClass()
-        self.redraw()
+        #if self.openFile != "":
+        #    pass
+        #else:
+            self.setWindowTitle(f"Class Schedule Maker")
+            self.openFile = ""
+            self.items.clear()
+            self.configs = Configs()
+            self.addClass()
+            self.redraw()
+
 
     def onGenClicked(self):
         newFile = QFileDialog.getSaveFileName(self, ("Export Schedule"),"schedule.ics",("iCalendar file (*.ics)"))
@@ -256,6 +276,5 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     widget = MainWindow()
-    widget.setWindowTitle("Class schedule generator")
     widget.show()
     sys.exit(app.exec())
