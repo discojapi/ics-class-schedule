@@ -14,7 +14,7 @@ def process(items : list, configs : Configs, filename : str):
         writeline(f"DTSTART;TZID=America/Santiago:{configs.pStart[0]}{checkZero(configs.pStart[1])}{checkZero(configs.pStart[2]+a.day-1)}T{checkZero(checkBlock(a.block, configs)[0])}{checkZero(checkBlock(a.block, configs)[1])}00")
         writeline(f"DTEND;TZID=America/Santiago:{configs.pStart[0]}{checkZero(configs.pStart[1])}{checkZero(configs.pStart[2]+a.day-1)}T{checkZero(checkBlock(a.block, configs, False)[0])}{checkZero(checkBlock(a.block, configs, False)[1])}00")
         writeline(f"RRULE:FREQ=WEEKLY;WKST={checkTime(a,2)[0]};UNTIL={configs.pEnd[0]}{checkZero(configs.pEnd[1])}{checkZero(configs.pEnd[2])}T035959Z")
-        writeline(f"DESCRIPTION:{getDescription()}")
+        writeline(f"DESCRIPTION:{getDescription(a, configs.desclayout)}")
         writeline(f"SUMMARY:{getShowName(configs.layout, a.id, a.name, a.color)}")
         writeline("STATUS:CONFIRMED\nEND:VEVENT")
     file.write("END:VCALENDAR")
@@ -40,6 +40,7 @@ def process(items : list, configs : Configs, filename : str):
     DAYSTARTM:
     SCHEDULE:
     LAYOUT:
+    DESCLAYOUT:
     --- (indicates class)
     CLASSNAME:
     DAY:
@@ -78,6 +79,7 @@ def save(items, configs : Configs, file : str):
     writeline("DAYSTARTM:"+str(configs.dStart[1]))
     writeline("SCHEDULE:"+configs.schedule)
     writeline("LAYOUT:"+str(configs.layout))
+    writeline("DESCLAYOUT:"+str(configs.desclayout))
     for item in items:
         writeline("---")
         writeline("CLASSID:"+item.id)
@@ -164,6 +166,8 @@ def load(items, file):
                         configs.schedule = cur[1]
                     case "LAYOUT":
                         configs.layout = int(cur[1])
+                    case "DESCLAYOUT":
+                        configs.desclayout = int(cur[1])
     if len(items) == 0:
         items.append(SchClass())
     return(True, configs)

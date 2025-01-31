@@ -57,6 +57,7 @@ class MainWindow(QMainWindow):
         self.ui.periodEndDateEdit.userDateChanged.connect(self.onPeriodEndChange)
         self.ui.periodStartDateEdit.userDateChanged.connect(self.onPeriodStartChange)
         self.ui.formatComboBox.activated.connect(self.onLayoutChange)
+        self.ui.eventDescriptionComboBox.activated.connect(self.onDescChange)
 
     def redraw(self):
         self.ui.treeWidget.clear()
@@ -135,6 +136,7 @@ class MainWindow(QMainWindow):
         self.ui.periodStartDateEdit.setDate(QDate(*(self.configs.pStart)))
         self.ui.periodEndDateEdit.setDate(QDate(*(self.configs.pEnd)))
         self.ui.formatComboBox.setCurrentIndex(self.configs.layout)
+        self.ui.eventDescriptionComboBox.setCurrentIndex(self.configs.desclayout)
 
     #Slots   
     @Slot(int)
@@ -254,6 +256,9 @@ class MainWindow(QMainWindow):
     @Slot(str)
     def onClassroomChange(self,classroom):
         self.items[self.activeClass].classroom = classroom
+        self.redraw()
+    def onDescChange(self, index):
+        self.configs.desclayout = index
         self.redraw()
     def onColorChange(self,color):
         self.items[self.activeClass].color = color

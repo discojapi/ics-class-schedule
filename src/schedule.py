@@ -15,7 +15,7 @@ class SchClass:
     
 class Configs:
     # p= Period, b= Block, l= Lunch, d= Day ; dStart[h,m] ; pStart / pEnd = [yyyy, mm, dd] 
-    def __init__(self, pStart=(2025,1,1), pEnd=(2026,1,1), blockTime=70, breakT=15, lStart=5, lTime=60, dStart=[8,15], schedule="Schedule", layout=0):
+    def __init__(self, pStart=(2025,1,1), pEnd=(2026,1,1), blockTime=70, breakT=15, lStart=5, lTime=60, dStart=[8,15], schedule="Schedule", layout=0, desclayout = 0):
         self.pStart = pStart
         self.pEnd = pEnd
         self.blockTime = blockTime
@@ -25,6 +25,7 @@ class Configs:
         self.dStart = dStart
         self.schedule = schedule
         self.layout = layout
+        self.desclayout = desclayout
 
 def checkTime(classTime, dowtype):
     day = classTime.day
@@ -89,9 +90,9 @@ def getShowName(format, id, name, color):
         case 1:
             return f"{name} - {id}"
         case 2:
-            return f"{id} - {name}{getColor(color)}"
+            return f"{id} - {name} {getColor(color)}"
         case 3:
-            return f"{name} - {id}{getColor(color)}"
+            return f"{name} - {id} {getColor(color)}"
         case 4:
             return f"{id}"
         case 5: 
@@ -108,7 +109,7 @@ def getColor(color):
         case 3:
             return chr(0x1F7E2)
         case 4:
-            return chr(0x1F7E5)
+            return chr(0x1F535)
         case 5:
             return chr(0x1F7E3)
         case 6:
@@ -122,10 +123,20 @@ def getDescription(item, type):
     sep = ""
     match type:
         case 0:
-            sep = "-"
+            sep = " - "
         case 1:
-            sep = ";"
+            sep = " ; "
         case 2:
-            sep = ","
-    
+            sep = " , "
+
+    compose = str(item.section)+sep
+    if item.teacher != "":
+        compose += item.teacher + sep
+    if item.classroom != "":
+        compose += item.classroom
+    if item.notes != "":
+        compose += sep + item.notes
+    return compose
+
+
 
