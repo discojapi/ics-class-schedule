@@ -1,7 +1,7 @@
 <div align="center">
 
 # 🗓️ Class Schedule Generator 🕑
-Simple scheduling tool for school/college classes written in Python and using PySide6 Libraries (AKA PyQt).
+Simple scheduling tool for school/college classes written in Python, using PySide6 Libraries.
 </div>
 
 ## Why
@@ -9,7 +9,7 @@ I always make my college class schedule in my phone's calendar, pretty slow task
 ## How
 I made this program in Python, to use the less as possible of additional libraries (The only requirement is Pyside6). The standard filetipe for calendars and scheduling is iCalendar (extension .ics), a plain text file containing data of events and alerts including Time Zone information and others, these files are readable by most (if not all) calendar programs and web apps. The program generates this file based on the settings on the program.
 ## Installation
-**Precompiled binaries don't require installation**, but you can run the program from the source, the only requirement (in addition of the Python interpreter) is `Pyside6`, you can install it by running this command on CMD (Windows) or a Python Venv (Linux / MacOS)
+**Precompiled binaries doesn't require installation**, but you can run the program from the source, the only requirement (in addition of the Python interpreter) is `Pyside6` libraries installed on your system, you can install them by running this command on CMD (Windows) or a Python Venv (Linux / MacOS)
 ```sh
     pip install Pyside6
 ```
@@ -18,6 +18,6 @@ And then, execute `src/main.py` using the Python interpreter
     python src/main.py
 ```
 ## Usage
-Simply add the classes you'd like, set your class period settings (Start-End) and customize as you like the calendar, **colors won't be added to the .ics file, since those aren't part of the standard**, you can always save your progress to a text file clicking `Save`. Once you're done with your changes, click `Export to .ics file`, select where you want the file and save. Most popular .ics clients (E.G. Google Calendar, Microsoft Outlook) will let you import the file.
+Simply add the classes you'd like, set your class period settings (Start-End) and customize as you like the calendar, you can always save your progress to a text file clicking `Save`. Once you're done with your changes, click `Export to .ics file`, select where you want the file and save. Most popular .ics clients (E.G. Google Calendar, Microsoft Outlook) will let you import the file.
 ## Bug reporting / Feature requests / Contributing
 All Issues or Pull requests are welcome.

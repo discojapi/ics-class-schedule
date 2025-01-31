@@ -1,26 +1,8 @@
-from schedule import Configs, SchClass, checkZero, checkBlock, checkTime
+from schedule import Configs, SchClass, checkZero, checkBlock, checkTime, getShowName, getDescription
 # This Python script processes the schedule setup made in the UI using iCalendar standard, 
 # hence, all the information must enter at once, this includes tuple lists, 
 # class layout, and others.
 
-# VEVENT Layout
-'''''
-    BEGIN:VEVENT
-    DTSTART;TZID=America/Santiago:20250127T181500
-    DTEND;TZID=America/Santiago:20250127T191500
-    RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20250507T035959Z;BYDAY=MO
-    DTSTAMP:20250126T202350Z
-    UID:74m35irtvptsagbqelq5k8gjsh@google.com
-    CREATED:20250126T201815Z
-    DESCRIPTION:I HAVEN'T ANYTHING TO HIDE
-    LAST-MODIFIED:20250126T202326Z
-    LOCATION:CLASSROOM 4
-    SEQUENCE:1
-    STATUS:CONFIRMED
-    SUMMARY:CLASS 2
-    TRANSP:OPAQUE
-    END:VEVENT
-'''''
 
 def process(items : list, configs : Configs, filename : str):
     file = open(filename,"w+",encoding="utf-8")
@@ -32,8 +14,8 @@ def process(items : list, configs : Configs, filename : str):
         writeline(f"DTSTART;TZID=America/Santiago:{configs.pStart[0]}{checkZero(configs.pStart[1])}{checkZero(configs.pStart[2]+a.day-1)}T{checkZero(checkBlock(a.block, configs)[0])}{checkZero(checkBlock(a.block, configs)[1])}00")
         writeline(f"DTEND;TZID=America/Santiago:{configs.pStart[0]}{checkZero(configs.pStart[1])}{checkZero(configs.pStart[2]+a.day-1)}T{checkZero(checkBlock(a.block, configs, False)[0])}{checkZero(checkBlock(a.block, configs, False)[1])}00")
         writeline(f"RRULE:FREQ=WEEKLY;WKST={checkTime(a,2)[0]};UNTIL={configs.pEnd[0]}{checkZero(configs.pEnd[1])}{checkZero(configs.pEnd[2])}T035959Z")
-        writeline(f"DESCRIPTION:Profesor: {a.teacher}\\nSala: {a.classroom}\\n{a.notes}")
-        writeline(f"SUMMARY:{a.name}")
+        writeline(f"DESCRIPTION:{getDescription()}")
+        writeline(f"SUMMARY:{getShowName(configs.layout, a.id, a.name, a.color)}")
         writeline("STATUS:CONFIRMED\nEND:VEVENT")
     file.write("END:VCALENDAR")
     file.close()
@@ -57,6 +39,7 @@ def process(items : list, configs : Configs, filename : str):
     DAYSTARTH:
     DAYSTARTM:
     SCHEDULE:
+    LAYOUT:
     --- (indicates class)
     CLASSNAME:
     DAY:
@@ -94,11 +77,14 @@ def save(items, configs : Configs, file : str):
     writeline("DAYSTARTH:"+str(configs.dStart[0]))
     writeline("DAYSTARTM:"+str(configs.dStart[1]))
     writeline("SCHEDULE:"+configs.schedule)
+    writeline("LAYOUT:"+str(configs.layout))
     for item in items:
         writeline("---")
+        writeline("CLASSID:"+item.id)
         writeline("CLASSNAME:"+item.name)
         writeline("DAY:"+str(item.day))
         writeline("BLOCK:"+str(item.block))
+        writeline("SECTION:"+str(item.section))
         writeline("TEACHER:"+item.teacher)
         writeline("NOTES:"+item.notes)
         writeline("CLASSROOM:"+item.classroom)
@@ -130,6 +116,8 @@ def load(items, file):
             cur = b.split(":")
             if checkClass:
                 match cur[0]:
+                    case "CLASSID":
+                        newClass.id = cur[1]
                     case "CLASSNAME":
                         newClass.name = cur[1]
                     case "DAY":
@@ -144,6 +132,8 @@ def load(items, file):
                         newClass.classroom = cur[1]
                     case "COLOR":
                         newClass.color = int(cur[1])
+                    case "SECTION":
+                        newClass.section = int(cur[1])
             else:
                 match cur[0]:
                     case "PSTARTY":
@@ -172,6 +162,8 @@ def load(items, file):
                         configs.dStart[1] = int(cur[1])
                     case "SCHEDULE":
                         configs.schedule = cur[1]
+                    case "LAYOUT":
+                        configs.layout = int(cur[1])
     if len(items) == 0:
         items.append(SchClass())
     return(True, configs)

@@ -1,6 +1,6 @@
 # This Python file uses the following encoding: utf-8
 import sys
-from schedule import SchClass, checkTime, Configs, checkDiff, checkZero
+from schedule import SchClass, checkTime, Configs, checkDiff, checkZero, getShowName
 from PySide6.QtCore import Qt, Slot, QDate
 from PySide6.QtWidgets import QApplication, QMainWindow, QTreeWidgetItem, QMessageBox, QTableWidgetItem, QFileDialog
 from PySide6.QtGui import QColor
@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         #Setup
-        self.colorSet=["red","yellow","brown","blue","cyan","green","purple","gray","orange","pink"]
+        self.colorSet=["red","orange","yellow","green","blue","purple","brown","black","white"]
         self.activeClass = 0
         self.openFile = ""
         self.items= []
@@ -40,11 +40,13 @@ class MainWindow(QMainWindow):
         self.ui.dayOfTheWeekComboBox.activated.connect(self.onDayChange)
         self.ui.spinBox.valueChanged.connect(self.onBlockChange)
         self.ui.classNameLineEdit.textEdited.connect(self.onNameChange)
+        self.ui.classIDLineEdit.textEdited.connect(self.onIDChange)
         self.ui.teacherLineEdit.textEdited.connect(self.onTeacherChange)
         self.ui.classroomLineEdit.textEdited.connect(self.onClassroomChange)
         self.ui.notesLineEdit.textEdited.connect(self.onNotesChange)
         self.ui.tableWidget.cellClicked.connect(self.onActiveTableItemChange)
         self.ui.colorComboBox.activated.connect(self.onColorChange)
+        self.ui.sectionSpinBox.valueChanged.connect(self.onSectionChange)
 
         self.ui.blockTimeMinutesSpinBox.valueChanged.connect(self.onBlockTimeChange)
         self.ui.timeBetweenBlockSpinBox.valueChanged.connect(self.onBreakTimeChange)
@@ -54,6 +56,7 @@ class MainWindow(QMainWindow):
         self.ui.dayStartTimeEdit.timeChanged.connect(self.onDayStartChange)
         self.ui.periodEndDateEdit.userDateChanged.connect(self.onPeriodEndChange)
         self.ui.periodStartDateEdit.userDateChanged.connect(self.onPeriodStartChange)
+        self.ui.formatComboBox.activated.connect(self.onLayoutChange)
 
     def redraw(self):
         self.ui.treeWidget.clear()
@@ -85,22 +88,26 @@ class MainWindow(QMainWindow):
                 it.setCheckState(0,Qt.CheckState.Checked)
             else:
                 it.setCheckState(0,Qt.CheckState.Unchecked)
-            it.setText(1,item.name)
+            it.setText(1,str(item.name))
+            it.setText(0,str(item.id))
             it.setBackground(1,QColor(self.colorSet[item.color]))
-            if self.colorSet[item.color] == "pink" or self.colorSet[item.color] == "yellow" or self.colorSet[item.color] == "orange" or self.colorSet[item.color] == "cyan":
+            it.setBackground(0,QColor(self.colorSet[item.color]))
+            if self.colorSet[item.color] == "pink" or self.colorSet[item.color] == "yellow" or self.colorSet[item.color] == "orange" or self.colorSet[item.color] == "white":
                 it.setForeground(1,QColor("black"))
-            it.setText(4,item.teacher)
+                it.setForeground(0,QColor("black"))
+            it.setText(5,item.teacher)
+            it.setText(2,str(item.section))
             (day,block) = checkTime(item,True)
-            it.setText(2,day)
-            it.setText(3,headers[item.block-1])
+            it.setText(3,str(day))
+            it.setText(4,headers[item.block - 1])
             it.setFlags(Qt.ItemIsSelectable|Qt.ItemIsEnabled)
             self.ui.treeWidget.addTopLevelItem(it)
             #Table
             (day,block) = checkTime(item,False)
             tb = QTableWidgetItem()
-            tb.setText(item.name)
+            tb.setText(getShowName(self.configs.layout, item.id, item.name, item.color))
             tb.setBackground(QColor(self.colorSet[item.color]))
-            if self.colorSet[item.color] == "pink" or self.colorSet[item.color] == "yellow" or self.colorSet[item.color] == "orange" or self.colorSet[item.color] == "cyan":
+            if self.colorSet[item.color] == "pink" or self.colorSet[item.color] == "yellow" or self.colorSet[item.color] == "orange" or self.colorSet[item.color] == "white":
                 tb.setForeground(QColor("black"))
             if item.block >= self.configs.lStart :
                 self.ui.tableWidget.setItem(block,day-1,tb)
@@ -110,12 +117,14 @@ class MainWindow(QMainWindow):
         
         
         self.ui.classNameLineEdit.setText(self.items[self.activeClass].name)
+        self.ui.classIDLineEdit.setText(self.items[self.activeClass].id)
         self.ui.teacherLineEdit.setText(self.items[self.activeClass].teacher)
         self.ui.notesLineEdit.setText(self.items[self.activeClass].notes)
         self.ui.classroomLineEdit.setText(self.items[self.activeClass].classroom)
         self.ui.dayOfTheWeekComboBox.setCurrentIndex(self.items[self.activeClass].day-1)
         self.ui.spinBox.setValue(self.items[self.activeClass].block)
         self.ui.colorComboBox.setCurrentIndex(self.items[self.activeClass].color)
+        self.ui.sectionSpinBox.setValue(self.items[self.activeClass].section)
 
         self.ui.blockTimeMinutesSpinBox.setValue(self.configs.blockTime)
         self.ui.timeBetweenBlockSpinBox.setValue(self.configs.breakT)
@@ -125,6 +134,7 @@ class MainWindow(QMainWindow):
         self.ui.scheduleLineEdit.setText(self.configs.schedule)
         self.ui.periodStartDateEdit.setDate(QDate(*(self.configs.pStart)))
         self.ui.periodEndDateEdit.setDate(QDate(*(self.configs.pEnd)))
+        self.ui.formatComboBox.setCurrentIndex(self.configs.layout)
 
     #Slots   
     @Slot(int)
@@ -201,7 +211,7 @@ class MainWindow(QMainWindow):
             #    QMessageBox.warning(self,"Error","Couldn't generate .ics file, please check your configurations")
     def onCloneClicked(self):
         clone = self.items[self.activeClass]
-        self.items.append(SchClass(clone.name, clone.day, clone.block, clone.teacher, clone.notes, clone.classroom, clone.color))
+        self.items.append(SchClass(clone.id, clone.name,  clone.day, clone.block, clone.teacher, clone.notes, clone.classroom, clone.color, clone.section))
         self.activeClass = len(self.items)-1
         self.redraw()
     @Slot()  
@@ -227,6 +237,9 @@ class MainWindow(QMainWindow):
     def onBlockChange(self,block):
         self.items[self.activeClass].block = block
         self.redraw()
+    def onIDChange(self, ID):
+        self.items[self.activeClass].id = ID
+        self.redraw()
     @Slot(str)
     def onTeacherChange(self,name):
         self.items[self.activeClass].teacher = name
@@ -235,6 +248,9 @@ class MainWindow(QMainWindow):
     def onNotesChange(self,notes):
         self.items[self.activeClass].notes = notes
         self.redraw()
+    def onSectionChange(self, section):
+        self.items[self.activeClass].section = section
+        self.redraw
     @Slot(str)
     def onClassroomChange(self,classroom):
         self.items[self.activeClass].classroom = classroom
@@ -242,7 +258,9 @@ class MainWindow(QMainWindow):
     def onColorChange(self,color):
         self.items[self.activeClass].color = color
         self.redraw()
-
+    def onLayoutChange(self, layout):
+        self.configs.layout = layout
+        self.redraw()
     def onBlockTimeChange(self,time):
         self.configs.blockTime = time
         self.redraw()
