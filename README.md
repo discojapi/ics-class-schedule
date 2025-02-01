@@ -2,8 +2,7 @@
 
 # 🗓️ Class Schedule Generator 🕑
 Simple scheduling tool for school/college classes written in Python, using PySide6 Libraries.
-![imagen](https://github.com/user-attachments/assets/fd3d720d-1a5f-4c5a-be07-00eba6d32a07)
-
+![imagen](https://github.com/user-attachments/assets/ae14b583-810f-4733-bcb6-d4624f250521)
 </div>
 
 ## Why
