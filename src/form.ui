@@ -234,7 +234,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>352</width>
+         <width>390</width>
          <height>832</height>
         </rect>
        </property>
@@ -793,7 +793,6 @@
    <addaction name="actionRemove_class"/>
    <addaction name="separator"/>
    <addaction name="action_gen"/>
-   <addaction name="actionExport"/>
    <addaction name="separator"/>
    <addaction name="actionabout"/>
    <addaction name="actionAboutQT"/>
