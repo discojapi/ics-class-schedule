@@ -34,6 +34,8 @@ class MainWindow(QMainWindow):
         self.ui.actionAboutQT.triggered.connect(self.onAboutQT)
         self.ui.actionAdd_class.triggered.connect(self.addClass)
         self.ui.actionDuplicate_class.triggered.connect(self.onCloneClicked)
+        self.ui.actionItemUp.triggered.connect(self.onItemUp)
+        self.ui.actionItemDown.triggered.connect(self.onItemDown)
         self.ui.actionRemove_class.triggered.connect(self.removeClass)
         self.ui.action_gen.triggered.connect(self.onGenClicked)
         self.ui.treeWidget.clicked.connect(self.onActiveItemChange)
@@ -228,6 +230,16 @@ class MainWindow(QMainWindow):
             if self.activeClass >=  len(self.items)-1:
                 self.activeClass = len(self.items)-1
         self.redraw()
+    def onItemDown(self):
+        if len(self.items) > 1 and self.activeClass != len(self.items)-1:
+            self.items[self.activeClass] , self.items[self.activeClass+1] = self.items[self.activeClass+1], self.items[self.activeClass]
+            self.activeClass += 1
+            self.redraw()
+    def onItemUp(self):
+        if len(self.items) > 1 and self.activeClass != 0:
+            self.items[self.activeClass] , self.items[self.activeClass-1] = self.items[self.activeClass-1], self.items[self.activeClass]
+            self.activeClass -= 1
+            self.redraw()
     @Slot(str)
     def onNameChange(self):
         self.items[self.activeClass].name = self.ui.classNameLineEdit.text()

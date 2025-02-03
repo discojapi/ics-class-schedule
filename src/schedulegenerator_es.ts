@@ -275,7 +275,7 @@
     <message>
         <location filename="form.ui" line="762"/>
         <source>Section, Teacher, Classroom, Notes</source>
-        <translation>Sección ; Profesor ; Salón ; Notas</translation>
+        <translation>Sección , Profesor , Salón , Notas</translation>
     </message>
     <message>
         <location filename="form.ui" line="778"/>

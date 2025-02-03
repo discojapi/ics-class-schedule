@@ -131,6 +131,9 @@
         <attribute name="horizontalHeaderCascadingSectionResizes">
          <bool>false</bool>
         </attribute>
+        <attribute name="horizontalHeaderMinimumSectionSize">
+         <number>1</number>
+        </attribute>
         <attribute name="horizontalHeaderDefaultSectionSize">
          <number>119</number>
         </attribute>
@@ -138,16 +141,19 @@
          <bool>true</bool>
         </attribute>
         <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-         <bool>false</bool>
+         <bool>true</bool>
         </attribute>
         <attribute name="horizontalHeaderStretchLastSection">
          <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderMinimumSectionSize">
+         <number>1</number>
         </attribute>
         <attribute name="verticalHeaderDefaultSectionSize">
          <number>38</number>
         </attribute>
         <attribute name="verticalHeaderShowSortIndicator" stdset="0">
-         <bool>false</bool>
+         <bool>true</bool>
         </attribute>
         <attribute name="verticalHeaderStretchLastSection">
          <bool>true</bool>
@@ -512,7 +518,7 @@
              </datetime>
             </property>
             <property name="displayFormat">
-             <string>dd-MM-yyyy</string>
+             <string notr="true">dd-MM-yyyy</string>
             </property>
             <property name="calendarPopup">
              <bool>true</bool>
@@ -539,7 +545,7 @@
              </datetime>
             </property>
             <property name="displayFormat">
-             <string>dd-MM-yyyy</string>
+             <string notr="true">dd-MM-yyyy</string>
             </property>
             <property name="calendarPopup">
              <bool>true</bool>
@@ -795,6 +801,9 @@
    <addaction name="actionDuplicate_class"/>
    <addaction name="actionRemove_class"/>
    <addaction name="separator"/>
+   <addaction name="actionItemUp"/>
+   <addaction name="actionItemDown"/>
+   <addaction name="separator"/>
    <addaction name="action_gen"/>
    <addaction name="separator"/>
    <addaction name="actionabout"/>
@@ -927,8 +936,14 @@
    <property name="toolTip">
     <string>Show info about QT</string>
    </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
   <action name="actionSave">
@@ -943,6 +958,34 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionItemUp">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::GoUp"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="toolTip">
+    <string>Moves the current item up.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionItemDown">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::GoDown"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="toolTip">
+    <string>Moves the current item down.</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
