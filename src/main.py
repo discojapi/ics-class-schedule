@@ -252,7 +252,7 @@ class MainWindow(QMainWindow):
         self.redraw()
     def onSectionChange(self, section):
         self.items[self.activeClass].section = section
-        self.redraw
+        self.redraw()
     @Slot(str)
     def onClassroomChange(self,classroom):
         self.items[self.activeClass].classroom = classroom
