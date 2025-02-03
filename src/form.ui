@@ -16,6 +16,9 @@
   <property name="windowIcon">
    <iconset theme="QIcon::ThemeIcon::AddressBookNew"/>
   </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,1">
     <item>

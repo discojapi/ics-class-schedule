@@ -1,6 +1,8 @@
 {
     "files": [
         "src/main.py",
-        "src/form.ui"
+        "src/form.ui",
+        "src/schedulegenerator_es.ts",
+        "src/linguist.qrc"
     ]
 }

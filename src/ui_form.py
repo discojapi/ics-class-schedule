@@ -30,6 +30,7 @@ class Ui_MainWindow(object):
         MainWindow.resize(1149, 892)
         icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.AddressBookNew))
         MainWindow.setWindowIcon(icon)
+        MainWindow.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
         self.actionAdd_class = QAction(MainWindow)
         self.actionAdd_class.setObjectName(u"actionAdd_class")
         icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.ListAdd))

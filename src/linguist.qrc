@@ -1,0 +1,5 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="translations">
+    <file>schedulegenerator_es.qm</file>
+</qresource>
+</RCC>

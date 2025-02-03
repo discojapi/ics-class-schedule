@@ -1,10 +1,10 @@
 # This Python file uses the following encoding: utf-8
 import sys
 from schedule import SchClass, checkTime, Configs, checkDiff, checkZero, getShowName
-from PySide6.QtCore import Qt, Slot, QDate
+from PySide6.QtCore import Qt, Slot, QDate, QLocale, QLibraryInfo, QTranslator
 from PySide6.QtWidgets import QApplication, QMainWindow, QTreeWidgetItem, QMessageBox, QTableWidgetItem, QFileDialog
 from PySide6.QtGui import QColor
-import math
+import rc_linguist
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
@@ -158,7 +158,7 @@ class MainWindow(QMainWindow):
             check += 1
 
     def onSaveAsFile(self):
-        newFile = QFileDialog.getSaveFileName(self, ("Save Schedule"),"schedule.txt",("Text file (*.txt)"))
+        newFile = QFileDialog.getSaveFileName(self, self.tr("Save Schedule"),"schedule.txt",self.tr("Text file (*.txt)"))
         if newFile != ('', ''):
             self.openFile = newFile[0]
             self.onSaveFile()
@@ -170,12 +170,12 @@ class MainWindow(QMainWindow):
             try:
                 save(self.items, self.configs, self.openFile)
                 title = self.openFile.split("/")
-                self.setWindowTitle(f"Class Schedule Maker - {title[len(title)-1]}")
+                self.setWindowTitle(f"{self.tr("Class Schedule Maker")} - {title[len(title)-1]}")
             except:
-                QMessageBox.warning(self,"Error","Couldn't save your file, please check your configurations")
+                QMessageBox.warning(self,self.tr("Error"),self.tr("Couldn't save your file, please check your configurations"))
 
     def onLoadFile(self):
-        fileName = QFileDialog.getOpenFileName(self, ("Open Schedule"), "schedule.txt", ("Text file (*.txt)"))
+        fileName = QFileDialog.getOpenFileName(self, self.tr("Open Schedule"), "schedule.txt", self.tr("Text file (*.txt)"))
         if fileName != ('', ''):
             try:
                 self.openFile = fileName[0]
@@ -185,7 +185,7 @@ class MainWindow(QMainWindow):
                     self.configs = configs
                     self.redraw()
                     title = self.openFile.split("/")
-                    self.setWindowTitle(f"Class Schedule Maker - {title[len(title)-1]}")
+                    self.setWindowTitle(f"{self.tr("Class Schedule Maker")} - {title[len(title)-1]}")
                 else:
                     QMessageBox.warning(self,"Error","Incorrect file")
             except:
@@ -195,7 +195,7 @@ class MainWindow(QMainWindow):
         #if self.openFile != "":
         #    pass
         #else:
-            self.setWindowTitle(f"Class Schedule Maker")
+            self.setWindowTitle(self.tr("Class Schedule Maker"))
             self.openFile = ""
             self.items.clear()
             self.configs = Configs()
@@ -204,11 +204,11 @@ class MainWindow(QMainWindow):
 
 
     def onGenClicked(self):
-        newFile = QFileDialog.getSaveFileName(self, ("Export Schedule"),"schedule.ics",("iCalendar file (*.ics)"))
+        newFile = QFileDialog.getSaveFileName(self, self.tr("Export Schedule"),"schedule.ics",self.tr("iCalendar file (*.ics)"))
         if newFile != ('', ''):
             #try :
                 process(self.items, self.configs, newFile[0])
-                QMessageBox.information(self, "Generated", "Your calendar file "+ newFile[0] + " has been generated successfully")
+                QMessageBox.information(self, self.tr("Generated"), self.tr("Your calendar file ")+ newFile[0] + self.tr(" has been generated successfully"))
             #except : 
             #    QMessageBox.warning(self,"Error","Couldn't generate .ics file, please check your configurations")
     def onCloneClicked(self):
@@ -292,12 +292,20 @@ class MainWindow(QMainWindow):
         self.configs.pEnd = (date.year(),date.month(),date.day())
         self.redraw()
     def onAbout(self):
-        QMessageBox.about(self, "About", 'Class Schedule Generator\nBy Sebastián Saldias')
+        QMessageBox.about(self, self.tr("About"), self.tr('Class Schedule Generator\nBy Sebastián Saldias'))
     def onAboutQT(self):
         QMessageBox.aboutQt(self)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    path = QLibraryInfo.path(QLibraryInfo.LibraryPath.TranslationsPath)
+    translator = QTranslator(app)
+    if translator.load(QLocale.system(), 'qtbase', '_', path):
+        app.installTranslator(translator)
+    translator = QTranslator(app)
+    path = ':/translations'
+    if translator.load(QLocale.system(), 'schedulegenerator', '_', path):
+        app.installTranslator(translator)
     widget = MainWindow()
     widget.show()
     sys.exit(app.exec())
