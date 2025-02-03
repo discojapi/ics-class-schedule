@@ -16,12 +16,13 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QDateEdit,
-    QFormLayout, QFrame, QHBoxLayout, QHeaderView,
-    QLabel, QLayout, QLineEdit, QMainWindow,
-    QScrollArea, QSizePolicy, QSpinBox, QStatusBar,
-    QTableWidget, QTableWidgetItem, QTimeEdit, QToolBar,
-    QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplication, QComboBox,
+    QDateEdit, QFormLayout, QFrame, QHBoxLayout,
+    QHeaderView, QLabel, QLayout, QLineEdit,
+    QMainWindow, QScrollArea, QSizePolicy, QSpinBox,
+    QStatusBar, QTableWidget, QTableWidgetItem, QTimeEdit,
+    QToolBar, QTreeWidget, QTreeWidgetItem, QVBoxLayout,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -149,6 +150,7 @@ class Ui_MainWindow(object):
         self.tableWidget.setItem(1, 0, __qtablewidgetitem8)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setFrameShape(QFrame.Shape.StyledPanel)
+        self.tableWidget.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustIgnored)
         self.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.tableWidget.setDragEnabled(False)
         self.tableWidget.setDragDropOverwriteMode(False)
@@ -159,9 +161,9 @@ class Ui_MainWindow(object):
         self.tableWidget.setShowGrid(True)
         self.tableWidget.setGridStyle(Qt.PenStyle.DashLine)
         self.tableWidget.setWordWrap(False)
+        self.tableWidget.setCornerButtonEnabled(False)
         self.tableWidget.setRowCount(11)
         self.tableWidget.horizontalHeader().setVisible(True)
-        self.tableWidget.horizontalHeader().setCascadingSectionResizes(False)
         self.tableWidget.horizontalHeader().setMinimumSectionSize(1)
         self.tableWidget.horizontalHeader().setDefaultSectionSize(119)
         self.tableWidget.horizontalHeader().setHighlightSections(True)
@@ -191,7 +193,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.label_2 = QLabel(self.scrollAreaWidgetContents)
         self.label_2.setObjectName(u"label_2")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Expanding)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
