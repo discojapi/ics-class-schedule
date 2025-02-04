@@ -13,7 +13,7 @@ def process(items : list, configs : Configs, filename : str):
         writeline("BEGIN:VEVENT")
         writeline(f"DTSTART;TZID=America/Santiago:{configs.pStart[0]}{checkZero(configs.pStart[1])}{checkZero(configs.pStart[2]+a.day-1)}T{checkZero(checkBlock(a.block, configs)[0])}{checkZero(checkBlock(a.block, configs)[1])}00")
         writeline(f"DTEND;TZID=America/Santiago:{configs.pStart[0]}{checkZero(configs.pStart[1])}{checkZero(configs.pStart[2]+a.day-1)}T{checkZero(checkBlock(a.block, configs, False)[0])}{checkZero(checkBlock(a.block, configs, False)[1])}00")
-        writeline(f"RRULE:FREQ=WEEKLY;WKST={checkTime(a,2)[0]};UNTIL={configs.pEnd[0]}{checkZero(configs.pEnd[1])}{checkZero(configs.pEnd[2])}T035959Z")
+        writeline(f"RRULE:FREQ=WEEKLY;WKST={checkTime(a,2)[0]};UNTIL={configs.pEnd[0]}{checkZero(configs.pEnd[1])}{checkZero(configs.pEnd[2])}T235959Z")
         writeline(f"DESCRIPTION:{getDescription(a, configs.desclayout)}")
         writeline(f"SUMMARY:{getShowName(configs.layout, a.id, a.name, a.color)}")
         writeline("STATUS:CONFIRMED\nEND:VEVENT")
